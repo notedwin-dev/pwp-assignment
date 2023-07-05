@@ -1,5 +1,6 @@
 import hashlib
 import json
+import inquirer
 
 def ReadDB(toRead, actual_value):
     # Opening the database JSON file
@@ -58,6 +59,21 @@ def signup():
 
     WriteIntoDB(credentials)
 
-    print("Welcome to APU LOGIN SYSTEM")
+print("Welcome to APU Hotel Reservation System (HRS).")
+questions = [
+inquirer.List("user_type", message="Select your User type", choices=["Admin", "Registered User", "New User"])
+]
 
-signup()
+answers = inquirer.prompt(questions)
+
+if answers["user_type"] == 'Admin':
+    print("Please login to your account.")
+    # code for admin login
+
+elif answers["user_type"] == 'Registered User':
+    print("Please login to your account.")
+    # code for registered user
+
+elif answers["user_type"] == 'New User':
+    print("Please sign up an account with us.")
+    signup()
