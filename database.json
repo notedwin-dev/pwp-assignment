@@ -1,7 +1,17 @@
 [
   {
     "username": "Edwin",
-    "email": "edwin@email.com",
-    "password": "964d72e72d053d501f2949969849b96c"
+    "email": "admin@example.com",
+    "password": "7314c3604def934d4702360535d04a95"
+  },
+  {
+    "username": "EdwinAlt",
+    "email": "admin@notedwin.codes",
+    "password": "0b9a54438fba2dc0d39be8f7c6c71a58"
+  },
+  {
+    "username": "EdwinAlt2",
+    "email": "admin2@notedwin.codes",
+    "password": "0b9a54438fba2dc0d39be8f7c6c71a58"
   }
 ]
