@@ -58,4 +58,6 @@ def signup():
 
     WriteIntoDB(credentials)
 
+    print("Welcome to APU LOGIN SYSTEM")
+
 signup()
