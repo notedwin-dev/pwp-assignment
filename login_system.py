@@ -12,9 +12,18 @@ def ReadDB(toRead, actual_value):
         for item in db:
             if item.get(toRead) == actual_value:
                 print(f"{toRead.capitalize()} already exists. Please choose a new one or login with the existing {toRead}.")
-                return False
 
-    return True
+                choice = [
+                    inquirer.List("action_type", choices=[f"Choose new {toRead}", "Login instead"], carousel=True)
+                ]
+                answer = inquirer.prompt(choice)
+
+                choice = answer["action_type"]
+
+                if choice == f"Choose new {toRead}":
+                    return False, choice
+                else:
+                    return True, choice
 
 
 def WriteIntoDB(credentials):
@@ -31,13 +40,25 @@ def WriteIntoDB(credentials):
 
 def signup():
     while True:
-        username = input("Choose a username: ") # SAMPLE_USERNAME_1
-        if ReadDB("username", username):
+        username = input("Choose a username: ")
+        proceed, choice = ReadDB("username", username)
+        if proceed == False:
+            continue
+        elif choice == "Login instead":
+            print("redirecting you to login instead.")
+            return
+        else:
             break
     
     while True:
         email = input("Enter your email: ")
-        if ReadDB("email", email):
+        proceed, choice = ReadDB("email", email)
+        if proceed == False:
+            continue
+        elif choice == "Login instead":
+            print("redirecting you to login instead.")
+            return
+        else:
             break
         
     pwd = input("Enter your password: ")
