@@ -41,15 +41,21 @@ def WriteIntoDB(credentials):
         print("Account registered successfully!")
 
 
+# Compares both password hash from the database and password hash from the user.
 def CompareCredentials(username, password):
     with open('database.json', 'r') as read:
+        # Load the database
         db = json.load(read)
 
+    # Loop through the list of user credentials
     for item in db:
+        # If the username matches for the user that tries to log in
         if item.get("username") == username:
+            # And the password hash is correct, return True so that the while loop stops.
             if item.get("password") == password:
                 return True
             else:
+                # Otherwise, return False so that the while loop will keep repeating until the password is correct.
                 return False
     return False
 
@@ -157,7 +163,7 @@ elif answers["user_type"] == 'Registered User':
     # code for registered user
 
 elif answers["user_type"] == 'New User':
-    print("Please sign up an account with us.")
+    print("Please sign up an account with us.", end="\n\n")
     signupProcess = signup()
 
     username = signupProcess[0]["username"]
