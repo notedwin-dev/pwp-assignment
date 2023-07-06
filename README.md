@@ -26,10 +26,10 @@ The following characteristics are important to be included in your system:
 
 
 ### New Customer
-1. Can view room detail.
-2. Can do registration by providing their detail like Name, Address, Email ID, Contact
+- [ ] Can view room detail.
+- [x] Can do registration by providing their detail like Name, Address, Email ID, Contact
 Number, Gender, Date_Of_Birth, User ID, Password, Rewrite Password, etc…
-3. Exit
+- [ ] Exit
 
 
 ## Registered Customer
