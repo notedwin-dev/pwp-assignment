@@ -1,12 +1,14 @@
 import hashlib
-import json
 import inquirer
 
 def ReadDB(toRead, actual_value):
-    # Opening the database JSON file
-    with open("database.json", "r") as openFile:
+    # Opening the database TXT file
+    with open("database.txt", "r") as openFile:
         # Reading the database
-        db = json.load(openFile)
+        file_contents = openFile.read()
+
+        # Evaluate the string representation of list of dictionaries into the actual list object
+        db = eval(file_contents)
 
         # Loop through the database to find a match of the specified value
         for item in db:
@@ -30,22 +32,27 @@ def ReadDB(toRead, actual_value):
 
 
 def WriteIntoDB(credentials):
-    with open('database.json', "r") as read:
-        read = json.load(read)
-    
-    read.append(credentials)
+    with open('database.txt', "r") as readFile:
+        file_contents = readFile.read()
 
-    with open('database.json', "w") as writeFile:
-        json.dump(read, writeFile, indent=2)
+        db = eval(file_contents)
+    
+    db.append(credentials)
+
+    with open('database.txt', "w") as writeFile:
+        # Write the list of dictionaries as a string representation into the text file
+        writeFile.write(str(db))
 
         print("Account registered successfully!")
 
 
-# Compares both password hash from the database and password hash from the user.
 def CompareCredentials(username, password):
-    with open('database.json', 'r') as read:
-        # Load the database
-        db = json.load(read)
+    with open('database.txt', 'r') as read:
+        # Read the contents of the file
+        file_contents = read.read()
+
+    # Evaluate the string representation of list of dictionaries into the actual list object
+    db = eval(file_contents)
 
     # Loop through the list of user credentials
     for item in db:
@@ -58,6 +65,7 @@ def CompareCredentials(username, password):
                 # Otherwise, return False so that the while loop will keep repeating until the password is correct.
                 return False
     return False
+
 
 
 def signup():
