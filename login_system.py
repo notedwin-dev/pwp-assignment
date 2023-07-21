@@ -105,7 +105,8 @@ def signup():
     credentials = {
         "username": username,
         "email": email,
-        "password": hashed
+        "password": hashed,
+        "role": "registered_user"
     }
 
     WriteIntoDB(credentials)
@@ -115,9 +116,23 @@ def signup():
 def login(username=None):
     if not username:
         print("Please login using your username and password.")
-        username = input("Username: ")
-        pwd = input("Password: ")
+        while True:
+            username = input("Username: ")
 
+            with open('database.txt', 'r') as read:
+                file_contents = read.read()
+
+            db = eval(file_contents)
+
+            # Check if the username exists in the database
+            username_exists = any(item.get("username") == username for item in db)
+
+            if username_exists:
+                break
+
+            print("Username does not exist. Please try again.")
+
+        pwd = input("Password: ")
         encode = pwd.encode()
         hashed = hashlib.md5(encode).hexdigest()
 
@@ -129,8 +144,7 @@ def login(username=None):
             encode = pwd.encode()
             hashed = hashlib.md5(encode).hexdigest()
             compare = CompareCredentials(username, hashed)
-        
-        
+
         print(f"Welcome {username}! Your password is {pwd}")
     else:
         print(f"Welcome {username}, please login with your password")
@@ -148,11 +162,49 @@ def login(username=None):
             encode = pwd.encode()
             hashed = hashlib.md5(encode).hexdigest()
             compare = CompareCredentials(username, hashed)
-        
-        
+
         print(f"Welcome {username}! Your password is {pwd}")
 
-            
+
+def admin_login():
+    print("Welcome to the Admin Login Portal.")
+    print("Please enter your admin credentails:")
+    while True:
+        username = input("Username: ")
+
+        with open('database.txt', 'r') as read:
+            file_contents = read.read()
+
+        db = eval(file_contents)
+
+        # Check if the username exists in the database
+        username_exists = any(item.get("username") == username for item in db)
+
+        if username_exists:
+            role = next((item.get("role") for item in db if item.get("username") == username), None)
+            if role == "admin":
+                break
+            else:
+                print("Invalid username. Please try again.")
+        else:
+            print("Username does not exist. Please try again.")
+
+
+    pwd = input("Password: ")
+    encode = pwd.encode()
+    hashed = hashlib.md5(encode).hexdigest()
+
+    compare = CompareCredentials(username, hashed)
+
+    while compare is False:
+        print("Password is incorrect")
+        pwd = input("Re-enter your password: ")
+        encode = pwd.encode()
+        hashed = hashlib.md5(encode).hexdigest()
+        compare = CompareCredentials(username, hashed)
+
+    print(f"Welcome {username}! Your password is {pwd}. You're now logged in as admin!")
+
 
 
 print("Welcome to APU Hotel Reservation System (HRS).")
@@ -163,7 +215,7 @@ inquirer.List("user_type", message="Select your User type", choices=["Admin", "R
 answers = inquirer.prompt(questions)
 
 if answers["user_type"] == 'Admin':
-    login()
+    admin_login()
     # code for admin login
 
 elif answers["user_type"] == 'Registered User':

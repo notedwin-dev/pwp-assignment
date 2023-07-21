@@ -1,1 +1,1 @@
-[{'username': 'NotEdwin', 'email': 'notedwin.music@gmail.com', 'password': '4026d63a466e2ce0c76aa055b6c68e48'}]
+[{'username': 'NotEdwin', 'email': 'notedwin.music@gmail.com', 'password': '4026d63a466e2ce0c76aa055b6c68e48', 'role': 'admin'}, {'username': 'EdwinAlt', 'email': 'alt@example.com', 'password': '34823136d0dd91d0f5d22db740f7679c', 'role': 'registered_user'}]
