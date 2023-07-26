@@ -215,6 +215,7 @@ def view_room_details():
     # view room details logic
     print("viewing room details")
 
+# Second Phase: User access
 
 def welcome_screen():
     print("Welcome to APU Hotel Reservation System (HRS).")
