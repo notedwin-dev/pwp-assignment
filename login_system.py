@@ -149,6 +149,7 @@ def login(username=None):
             compare = CompareCredentials(username, hashed)
 
         print(f"Welcome {username}! Your password is {pwd}")
+
     else:
         print(f"Welcome {username}, please login with your password")
         print(f"Username: {username}")
@@ -167,7 +168,8 @@ def login(username=None):
             compare = CompareCredentials(username, hashed)
 
         print(f"Welcome {username}! Your password is {pwd}")
-        return {"username": username}
+
+    return {"user_type": "user", "username": username}
 
 
 def admin_login():
@@ -211,7 +213,7 @@ def admin_login():
     print("=================================================")
     print(
         f"Welcome {username}! Your password is {pwd}. You're now logged in as admin!")
-    return {"username": username}
+    return {"user_type": "admin", "username": username}
 
 
 def view_room_details():
@@ -219,6 +221,7 @@ def view_room_details():
     print("viewing room details")
 
 # Second Phase: User access
+
 
 def welcome_screen():
     print("Welcome to APU Hotel Reservation System (HRS).")
@@ -233,12 +236,12 @@ def welcome_screen():
     if answers["user_type"] == 'Admin':
         admin = admin_login()
         # code for admin login
-        return {"user_type": "admin", "username": admin["username"]}
+        return admin
 
     elif answers["user_type"] == 'Registered User':
         user = login()
         # code for registered user
-        return {"user_type": "user", "username": user["username"]}
+        return user
 
     elif answers["user_type"] == 'New User':
         print("Please sign up an account with us.", end="\n\n")
@@ -274,13 +277,51 @@ def main():
         # provide options for uploading room details, view all rooms, update/modify room info, delete room service info,
         # search specific room service menu for specific restaurant, view all booking of customers, generate bills,
         # search booking of specific customer, generate a report and exit
-        questions = [inquirer.List("admin", "Admin Menu", choices=["View All Room Details", "Upload Room Details", "Update/Modify Room Info", "Delete Room Service Info",
-                                                                   "Search Specific Room Service Menu For Specific Restaurant", "View All Booking Of Customers", "Generate Bills",
-                                                                   "Search Booking Of Specific Customer", "Generate Customer Report"])]
+        questions = [
+            inquirer.List(
+                "admin",
+                "Admin Menu",
+                choices=[
+                    "View All Room Details",
+                    "Upload Room Details",
+                    "Update/Modify Room Info",
+                    "Delete Room Service Info",
+                    "Search Specific Room Service Menu For Specific Restaurant",
+                    "View All Booking Of Customers",
+                    "Generate Bills",
+                    "Search Booking Of Specific Customer",
+                    "Generate Customer Report"
+                ]
+            )
+        ]
 
         choices = inquirer.prompt(questions)
 
         return choices
+
+    elif (user_type == "user"):
+        questions = [
+            inquirer.List(
+                "user",
+                "Registered User Menu",
+                choices=[
+                    "View Room Details",
+                    "Book a Room",
+                    "View/Order from Room Service Menu",
+                    "View Booking",
+                    "Update Booking",
+                    "Cancel Booking",
+                    "View Personal Details",
+                    "Update Personal Details",
+                    "Delete Personal Details",
+                    "Exit"
+                ]
+            )
+        ]
+
+        choices = inquirer.prompt(questions)
+
+        return
 
 
 main()
