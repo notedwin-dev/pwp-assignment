@@ -46,6 +46,7 @@ def WriteIntoDB(credentials):
         writeFile.write(str(db))
 
         print("Account registered successfully!")
+        print("=================================================")
 
 
 def CompareCredentials(username, password):
@@ -171,7 +172,8 @@ def login(username=None):
 
 def admin_login():
     print("Welcome to the Admin Login Portal.")
-    print("Please enter your admin credentails:")
+    print("=================================================")
+    print("Please enter your admin credentails below.")
     while True:
         username = input("Username: ")
 
@@ -206,6 +208,7 @@ def admin_login():
         hashed = hashlib.md5(encode).hexdigest()
         compare = CompareCredentials(username, hashed)
 
+    print("=================================================")
     print(
         f"Welcome {username}! Your password is {pwd}. You're now logged in as admin!")
     return {"username": username}
@@ -218,6 +221,7 @@ def view_room_details():
 
 def welcome_screen():
     print("Welcome to APU Hotel Reservation System (HRS).")
+    print("=================================================")
     questions = [
         inquirer.List("user_type", message="Select your User type",
                       choices=["Admin", "Registered User", "New User"])
@@ -237,6 +241,7 @@ def welcome_screen():
 
     elif answers["user_type"] == 'New User':
         print("Please sign up an account with us.", end="\n\n")
+        print("=================================================")
         signupProcess = signup()
 
         username = signupProcess[0]["username"]
@@ -258,6 +263,8 @@ def welcome_screen():
 def main():
     # Step 1: Welcome the user
     welcome = welcome_screen()
+
+    print("=================================================")
 
     # Step 2: Check user type
     user_type = welcome["user_type"]
