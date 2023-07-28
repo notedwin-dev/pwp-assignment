@@ -297,7 +297,26 @@ def main():
 
         choices = inquirer.prompt(questions)
 
-        return choices
+        admin_choices = choices["admin"]
+
+        if (admin_choices == "View All Room Details"):
+            view_room_details()
+        elif (admin_choices == "Upload Room Details"):
+            print("uploading room details")
+        elif (admin_choices == "Update/Modify Room Info"):
+            print("modifying room info")
+        elif (admin_choices == "Delete Room Service Info"):
+            print("deleting room service info")
+        elif (admin_choices == "Search Specific Room Service Menu For Specific Restaurant"):
+            print("Searching specific room service menu for specific restaurant")
+        elif (admin_choices == "View All Booking Of Customers"):
+            print("viewing all bookings of customers")
+        elif (admin_choices == "Generate Bills"):
+            print("generating bill for each customers")
+        elif (admin_choices == "Search Booking Of Specific Customer"):
+            print("searching booking of specific customer")
+        elif (admin_choices == "Generate Customer Report"):
+            print("Generating customer report")
 
     elif (user_type == "user"):
         questions = [
