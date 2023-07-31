@@ -82,6 +82,21 @@ def view_personal_details(username):
             break
 
 
+def delete_personal_details(username):
+    with open('database.txt', 'r') as file:
+        file_content = file.read()
+
+    # Convert the file content to a list of dictionaries using eval
+    db = eval(file_content)
+
+    updated_db = [item for item in db if item.get("username") != username]
+
+    with open('database.txt', 'w') as file:
+        file.write(str(updated_db))
+
+    return updated_db
+
+
 def signup():
     while True:
         username = input("Choose a username: ")
@@ -242,64 +257,8 @@ def view_room_details():
     # view room details logic
     print("viewing room details")
 
-# Second Phase: User access
 
-
-def welcome_screen():
-    print("Welcome to APU Hotel Reservation System (HRS).")
-    print("=================================================")
-    questions = [
-        inquirer.List("user_type", message="Select your User type",
-                      choices=["Admin", "Registered User", "New User"])
-    ]
-
-    answers = inquirer.prompt(questions)
-
-    if answers["user_type"] == 'Admin':
-        admin = admin_login()
-        # code for admin login
-        return admin
-
-    elif answers["user_type"] == 'Registered User':
-        user = login()
-        # code for registered user
-        return user
-
-    elif answers["user_type"] == 'New User':
-        print("Please sign up an account with us.", end="\n\n")
-        print("=================================================")
-        signupProcess = signup()
-
-        username = signupProcess[0]["username"]
-        action = signupProcess[0]["action"]
-
-        if action == "LOGIN" and username:
-            login(username)
-            return {"user_type": "user", "username": username}
-        else:
-            questions = [inquirer.List("qna", message="What do you want to do?", choices=[
-                                       "View Room Details", "Login"])]
-            registered = inquirer.prompt(questions)
-
-            if registered["qna"] == 'Login' and username:
-                login(username)
-                return {"user_type": "user", "username": username}
-            elif registered["qna"] == 'View Room Details':
-                view_room_details()
-                return {"user_type": "registered_user", "action": "View Room Details"}
-
-
-def main():
-    # Step 1: Welcome the user
-    welcome = welcome_screen()
-
-    print("=================================================")
-
-    # Step 2: Check user type
-    user_type = welcome["user_type"]
-
-    username = welcome["username"]
-
+def menu(user_type, username):
     if (user_type == "admin"):
         # provide options for uploading room details, view all rooms, update/modify room info, delete room service info,
         # search specific room service menu for specific restaurant, view all booking of customers, generate bills,
@@ -322,6 +281,7 @@ def main():
             )
         ]
 
+        print("=================================================")
         choices = inquirer.prompt(questions)
 
         admin_choices = choices["admin"]
@@ -365,6 +325,7 @@ def main():
             )
         ]
 
+        print("=================================================")
         choices = inquirer.prompt(questions)
 
         user_choices = choices["user"]
@@ -392,18 +353,32 @@ def main():
             address = personal_details["address"]
             contact_number = personal_details["contact_number"]
 
-            print("Username:", username,"\nDate of birth:", dob,"\nGender:", gender, "\nAddress:", address, "\nContact number:", contact_number)
+            print("Username:", username, "\nDate of birth:", dob, "\nGender:",
+                  gender, "\nAddress:", address, "\nContact number:", contact_number)
+
+            print("Returning back to main menu...")
+
+            menu(user_type, username)
 
         elif (user_choices == "Update Personal Details"):
             print("Updating personal details...")
+
         elif (user_choices == "Delete Personal Details"):
             prompt = input(
                 "Deleting your personal information will result in account deletion from our database. Are you sure you want to delete your information? (Y/N) ")
 
             if (prompt.upper() == "Y"):
                 print("Removing personal details from database...")
+                updated = delete_personal_details(username)
+                print(
+                    "Account has been deleted. Sorry to see you go! Thanks for using APU Hotel Reservation System :/")
+
+                welcome_screen()
+
             elif (prompt.upper() == "N"):
                 print("Returning to main menu.")
+
+                menu(user_type, username)
             else:
                 print("Invalid input. Please try again.")
         elif (user_choices == "Exit"):
@@ -412,6 +387,63 @@ def main():
 
     elif (user_type == "registered_user"):
         return
+
+
+def welcome_screen(user_type=None, username=None):
+    print("Welcome to APU Hotel Reservation System (HRS).")
+    print("=================================================")
+    questions = [
+        inquirer.List("user_type", message="Select your User type",
+                      choices=["Admin", "Registered User", "New User"])
+    ]
+
+    if (user_type == None and username == None):
+        answers = inquirer.prompt(questions)
+
+        if answers["user_type"] == 'Admin':
+            admin = admin_login()
+            # code for admin login
+            return admin
+
+        elif answers["user_type"] == 'Registered User':
+            user = login()
+            # code for registered user
+            return user
+
+        elif answers["user_type"] == 'New User':
+            print("Please sign up an account with us.", end="\n\n")
+            print("=================================================")
+            signupProcess = signup()
+
+            username = signupProcess[0]["username"]
+            action = signupProcess[0]["action"]
+
+            if action == "LOGIN" and username:
+                login(username)
+                return {"user_type": "user", "username": username}
+            else:
+                questions = [inquirer.List("qna", message="What do you want to do?", choices=[
+                    "View Room Details", "Login"])]
+                registered = inquirer.prompt(questions)
+
+                if registered["qna"] == 'Login' and username:
+                    login(username)
+                    return {"user_type": "user", "username": username}
+                elif registered["qna"] == 'View Room Details':
+                    view_room_details()
+                    return {"user_type": "registered_user", "action": "View Room Details"}
+
+
+def main():
+    # Step 1: Welcome the user
+    welcome = welcome_screen()
+
+    # Step 2: Check user type
+    user_type = welcome["user_type"]
+
+    username = welcome["username"]
+
+    menu(user_type, username)
 
 
 main()
