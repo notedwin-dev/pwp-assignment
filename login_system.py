@@ -70,6 +70,18 @@ def CompareCredentials(username, password):
     return False
 
 
+def view_personal_details(username):
+    with open('database.txt', "r") as file:
+        file_content = file.read()
+
+    db = eval(file_content)
+
+    for items in db:
+        if (items.get("username") == username):
+            return items
+            break
+
+
 def signup():
     while True:
         username = input("Choose a username: ")
@@ -262,6 +274,7 @@ def welcome_screen():
 
         if action == "LOGIN" and username:
             login(username)
+            return {"user_type": "user", "username": username}
         else:
             questions = [inquirer.List("qna", message="What do you want to do?", choices=[
                                        "View Room Details", "Login"])]
@@ -269,6 +282,7 @@ def welcome_screen():
 
             if registered["qna"] == 'Login' and username:
                 login(username)
+                return {"user_type": "user", "username": username}
             elif registered["qna"] == 'View Room Details':
                 view_room_details()
                 return {"user_type": "registered_user", "action": "View Room Details"}
@@ -282,6 +296,8 @@ def main():
 
     # Step 2: Check user type
     user_type = welcome["user_type"]
+
+    username = welcome["username"]
 
     if (user_type == "admin"):
         # provide options for uploading room details, view all rooms, update/modify room info, delete room service info,
@@ -367,7 +383,17 @@ def main():
             print("cancelling booking...")
         elif (user_choices == "View Personal Details"):
             print("-- Personal Details --")
-            print("function under development...")
+
+            personal_details = view_personal_details(username)
+
+            dob = personal_details["date_of_birth"]
+            gender = personal_details["gender"]
+            address = personal_details["address"]
+            contact_number = personal_details["contact_number"]
+
+            print({"username": username, "date_of_birth": dob, "gender": gender,
+                  "address": address, "contact_number": contact_number})
+
         elif (user_choices == "Update Personal Details"):
             print("Updating personal details...")
         elif (user_choices == "Delete Personal Details"):
