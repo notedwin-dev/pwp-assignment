@@ -1,5 +1,6 @@
 import hashlib
 import inquirer
+# line 292 changed
 
 
 def ReadDB(toRead, actual_value):
@@ -288,6 +289,18 @@ def welcome_screen():
                 view_room_details()
                 return {"user_type": "registered_user", "action": "View Room Details"}
 
+# Work in Progress upload room details
+def upload_room_detaiils():
+    print("--Upload Room Details--")
+    questions = [inquirer.List("qna", message="Select a room type", choices=[
+                                       "Single Bedroom", "Double Bedroom", "Family Bedroom"])]
+    room_type = inquirer.prompt(questions)
+    if room_type["qna"] == 'Single Bedroom':
+        print("Price: RM 370 per night\nMaximum Guests: 1 pax")
+
+
+
+
 
 def main():
     # Step 1: Welcome the user
@@ -329,7 +342,10 @@ def main():
         if (admin_choices == "View All Room Details"):
             view_room_details()
         elif (admin_choices == "Upload Room Details"):
+            upload_room_details()
             print("uploading room details")
+            
+
         elif (admin_choices == "Update/Modify Room Info"):
             print("modifying room info")
         elif (admin_choices == "Delete Room Service Info"):
