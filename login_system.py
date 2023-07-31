@@ -93,6 +93,11 @@ def signup():
         else:
             break
 
+    address = input("Home Address: ")
+    contact = input("Contact Number: ")
+    gender = input("Gender: ")
+    dob = input("Date of birth:")
+
     pwd = input("Enter your password: ")
     pwdConfirm = input("Confirm your password: ")
     while (pwd != pwdConfirm):
@@ -107,7 +112,11 @@ def signup():
         "username": username,
         "email": email,
         "password": hashed,
-        "role": "registered_user"
+        "address": address,
+        "contact_number": contact,
+        "gender": gender,
+        "date_of_birth": dob,
+        "role": "registered_user",
     }
 
     WriteIntoDB(credentials)
@@ -262,6 +271,7 @@ def welcome_screen():
                 login(username)
             elif registered["qna"] == 'View Room Details':
                 view_room_details()
+                return {"user_type": "registered_user", "action": "View Room Details"}
 
 
 def main():
@@ -373,6 +383,9 @@ def main():
         elif (user_choices == "Exit"):
             print("Thank you for using APU Hotel Reservation System.")
             return
+
+    elif (user_type == "registered_user"):
+        return
 
 
 main()
