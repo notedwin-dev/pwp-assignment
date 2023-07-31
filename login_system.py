@@ -194,6 +194,7 @@ def login(username=None):
 
 
 def admin_login():
+    print("=================================================")
     print("Welcome to the Admin Login Portal.")
     print("=================================================")
     print("Please enter your admin credentails below.")
@@ -391,8 +392,7 @@ def main():
             address = personal_details["address"]
             contact_number = personal_details["contact_number"]
 
-            print({"username": username, "date_of_birth": dob, "gender": gender,
-                  "address": address, "contact_number": contact_number})
+            print("Username:", username,"\nDate of birth:", dob,"\nGender:", gender, "\nAddress:", address, "\nContact number:", contact_number)
 
         elif (user_choices == "Update Personal Details"):
             print("Updating personal details...")
