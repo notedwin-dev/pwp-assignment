@@ -340,7 +340,39 @@ def main():
 
         choices = inquirer.prompt(questions)
 
-        return
+        user_choices = choices["user"]
+
+        if (user_choices == "View Room Details"):
+            view_room_details()
+        elif (user_choices == "Book a Room"):
+            print("booking a room")
+        elif (user_choices == "View/Order from Room Service Menu"):
+            print("-- Room Service Menu --")
+            print("menu is under maintenance.")
+        elif (user_choices == "View Booking"):
+            print("Viewing Booking Details")
+        elif (user_choices == "Update Booking"):
+            print("Updating booking status and details")
+        elif (user_choices == "Cancel Booking"):
+            print("cancelling booking...")
+        elif (user_choices == "View Personal Details"):
+            print("-- Personal Details --")
+            print("function under development...")
+        elif (user_choices == "Update Personal Details"):
+            print("Updating personal details...")
+        elif (user_choices == "Delete Personal Details"):
+            prompt = input(
+                "Deleting your personal information will result in account deletion from our database. Are you sure you want to delete your information? (Y/N) ")
+
+            if (prompt.upper() == "Y"):
+                print("Removing personal details from database...")
+            elif (prompt.upper() == "N"):
+                print("Returning to main menu.")
+            else:
+                print("Invalid input. Please try again.")
+        elif (user_choices == "Exit"):
+            print("Thank you for using APU Hotel Reservation System.")
+            return
 
 
 main()
