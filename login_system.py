@@ -258,78 +258,19 @@ def view_room_details():
     # view room details logic
     print("viewing room details")
 
-<<<<<<< HEAD
 # Second Phase: User access
 
-
-def welcome_screen():
-    print("Welcome to APU Hotel Reservation System (HRS).")
-    print("=================================================")
-    questions = [
-        inquirer.List("user_type", message="Select your User type",
-                      choices=["Admin", "Registered User", "New User"])
-    ]
-
-    answers = inquirer.prompt(questions)
-
-    if answers["user_type"] == 'Admin':
-        admin = admin_login()
-        # code for admin login
-        return admin
-
-    elif answers["user_type"] == 'Registered User':
-        user = login()
-        # code for registered user
-        return user
-
-    elif answers["user_type"] == 'New User':
-        print("Please sign up an account with us.", end="\n\n")
-        print("=================================================")
-        signupProcess = signup()
-
-        username = signupProcess[0]["username"]
-        action = signupProcess[0]["action"]
-
-        if action == "LOGIN" and username:
-            login(username)
-            return {"user_type": "user", "username": username}
-        else:
-            questions = [inquirer.List("qna", message="What do you want to do?", choices=[
-                                       "View Room Details", "Login"])]
-            registered = inquirer.prompt(questions)
-
-            if registered["qna"] == 'Login' and username:
-                login(username)
-                return {"user_type": "user", "username": username}
-            elif registered["qna"] == 'View Room Details':
-                view_room_details()
-                return {"user_type": "registered_user", "action": "View Room Details"}
-
 # Work in Progress upload room details
+
+
 def upload_room_detaiils():
     print("--Upload Room Details--")
     questions = [inquirer.List("qna", message="Select a room type", choices=[
-                                       "Single Bedroom", "Double Bedroom", "Family Bedroom"])]
+        "Single Bedroom", "Double Bedroom", "Family Bedroom"])]
     room_type = inquirer.prompt(questions)
     if room_type["qna"] == 'Single Bedroom':
         print("Price: RM 370 per night\nMaximum Guests: 1 pax")
 
-
-
-
-
-def main():
-    # Step 1: Welcome the user
-    welcome = welcome_screen()
-
-    print("=================================================")
-
-    # Step 2: Check user type
-    user_type = welcome["user_type"]
-
-    username = welcome["username"]
-=======
->>>>>>> 3b90c424208fd901424b6bc6f24cfb81a15a1ced
 
 def menu(user_type, username):
     if (user_type == "admin"):
@@ -364,7 +305,6 @@ def menu(user_type, username):
         elif (admin_choices == "Upload Room Details"):
             upload_room_details()
             print("uploading room details")
-            
 
         elif (admin_choices == "Update/Modify Room Info"):
             print("modifying room info")
