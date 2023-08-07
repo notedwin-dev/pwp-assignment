@@ -35,20 +35,31 @@ def ReadDB(toRead, actual_value):
             return True, None
 
 
-def WriteIntoDB(credentials):
+def WriteIntoDB(dict):
     with open('database.txt', "r") as readFile:
         file_contents = readFile.read()
 
         db = eval(file_contents)
 
-    db.append(credentials)
+    db.append(dict)
 
     with open('database.txt', "w") as writeFile:
         # Write the list of dictionaries as a string representation into the text file
         writeFile.write(str(db))
 
-        print("Account registered successfully!")
-        print("=================================================")
+
+def WriteIntoRoomDB(dict):
+    with open('roomdetails.txt', "r") as readFile:
+        file_contents = readFile.read()
+
+        db = eval(file_contents)
+
+    db.append(dict)
+
+    with open('roomdetails.txt', "w") as writeFile:
+        # Write the list of dictionaries as a string representation into the text file
+        writeFile.write(str(db))
+
 
 
 def CompareCredentials(username, password):
@@ -149,6 +160,8 @@ def signup():
     }
 
     WriteIntoDB(credentials)
+    print("Account registered successfully!")
+    print("=================================================")
 
     return [{"action": None, "username": username}]
 
@@ -255,9 +268,16 @@ def admin_login():
     return {"user_type": "admin", "username": username}
 
 
-def view_room_details():
-    # view room details logic
-    print("viewing room details")
+def view_room_details(room_number):
+     with open('roomdetails.txt', "r") as file:
+        file_content = file.read()
+
+        db = eval(file_content)
+
+        for items in db:
+            if (items.get("Room Number") == room_number):
+                return items
+                break
 
 # Second Phase: User access
 
@@ -266,15 +286,37 @@ def view_room_details():
 
 def upload_room_details():
     print("--Upload Room Details--")
-    questions = [inquirer.List("qna", message="Select a room type", choices=[
-        "Single Bedroom", "Double Bedroom", "Family Bedroom"])]
-    room_type = inquirer.prompt(questions)
-    if room_type["qna"] == 'Single Bedroom':
-        print("Price: RM 370 per night\nMaximum Guests: 1 pax")
-    elif room_type["qna"] == 'Double Bedroom':
-        print("Price: RM450 per night\nMaximum Guests: 2 pax")
-    elif room_type["qna"] == 'Family Bedroom':
-        print("Price: RM699 per night\nMaximum Guests: 4 pax")
+    questions = [
+        inquirer.List("room_type", message="Select a room type", choices=[
+        "Single Bedroom", "Double Bedroom", "Family Bedroom"]),
+        inquirer.Text("room_price", message="Enter a room price"),
+        inquirer.Text("room_number", message="Enter A room number"),
+        inquirer.Checkbox("room_service", message="Select all applicable room services.", choices=[
+            "Room Cleaning",
+            "Karaoke Booking",
+            "Food and Beverages"
+        ])
+        ]
+    
+    answers = inquirer.prompt(questions)
+
+    answers["room_type"]
+    answers["room_price"]
+    answers["room_number"]
+    answers["room_service"]
+    
+    R_Details = {
+        "Room Type": answers["room_type"],
+        "Room Price": answers["room_price"],
+        "Room Number": answers["room_number"],
+        "Room Services": answers["room_service"],
+    }
+
+    WriteIntoRoomDB(R_Details)
+
+    print("Room Details uploaded Succesfully")
+    
+
 
 
 def menu(user_type, username):
@@ -289,8 +331,7 @@ def menu(user_type, username):
                 choices=[
                     "View All Room Details",
                     "Upload Room Details",
-                    "Update/Modify Room Info",
-                    "Delete Room Service Info",
+                    "Update/Modify Room Details",
                     "Search Specific Room Service Menu For Specific Restaurant",
                     "View All Booking Of Customers",
                     "Generate Bills",
@@ -306,15 +347,79 @@ def menu(user_type, username):
         admin_choices = choices["admin"]
 
         if (admin_choices == "View All Room Details"):
-            view_room_details()
+            view_all_room_details()
         elif (admin_choices == "Upload Room Details"):
             upload_room_details()
-            print("uploading room details")
+            menu(user_type, username)
 
-        elif (admin_choices == "Update/Modify Room Info"):
-            print("modifying room info")
-        elif (admin_choices == "Delete Room Service Info"):
-            print("deleting room service info")
+        elif (admin_choices == "Update/Modify Room Details"):
+            room_number = input("Enter the room number to modify room details: ")
+
+            update_details = view_room_details(room_number)
+
+            with open('roomdetails.txt', 'r') as read:
+                file_contents = read.read()
+
+                db = eval(file_contents)
+
+            questions = [inquirer.Checkbox("update_details", "Please check any room details that you would like to update.", 
+            choices=[
+                "Room Type",
+                "Room Number",
+                "Room Price",
+                "Room Services",
+            ])]
+
+            
+
+            answers = inquirer.prompt(questions)
+
+            
+
+            for x in answers["update_details"]:
+                if x == "Room Type":
+                    new_rt = input("Update your Room Type: ")
+                    update_details.update({"Room Type": new_rt})
+                    
+
+                if x == "Room Number":
+                    new_rn = input("Update your Room Number: ")
+                    update_details.update({"Room Number": new_rn})
+                    
+
+                if x == "Room Price":
+                    new_rp = input("Enter your new Room Price: ")
+                    update_details.update({"Room Price": new_rp})
+                    
+                if x == "Room Services":
+                    questions = [inquirer.Checkbox("room_service", "Please update with the applicable room services.", 
+                    choices=[
+                        "Room Cleaning",
+                        "Karaoke Booking",
+                        "Food and Beverages"
+                    ])]
+
+                    answers = inquirer.prompt(questions)
+
+                    update_details.update({"Room Services": answers["room_service"]})
+                    
+
+            updated_db = [item if item.get("username") != username else update_details for item in db]
+
+            with open("roomddetails.txt", "w") as overwriteFile:
+                overwriteFile.write(str(updated_db))
+
+            print("Details updated successfully!")
+            print("Your new room details are: ", update_details)
+
+            count = 5
+            while count != 0:
+                count -= 1
+                time.sleep(1)
+                print(f"Returning to admin menu in... {count+1} seconds", end="\r")
+            
+
+            menu(user_type, username)
         elif (admin_choices == "Search Specific Room Service Menu For Specific Restaurant"):
             print("Searching specific room service menu for specific restaurant")
         elif (admin_choices == "View All Booking Of Customers"):
@@ -396,7 +501,8 @@ def menu(user_type, username):
                 "Gender",
                 "Address",
                 "Contact Number",
-                "Email"
+                "Email",
+                "Password",
             ])]
 
             answers = inquirer.prompt(questions)
@@ -425,6 +531,10 @@ def menu(user_type, username):
                 if x == "Email":
                     new_email = input("Update your new email: ")
                     update_details.update({"email": new_email})
+                
+                if x == "Password":
+                    new_password = input("Enter yout new password: ")
+                    update_details.update({"password": new_password})
 
             updated_db = [item if item.get("username") != username else update_details for item in db]
 
