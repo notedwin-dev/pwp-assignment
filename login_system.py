@@ -264,13 +264,17 @@ def view_room_details():
 # Work in Progress upload room details
 
 
-def upload_room_detaiils():
+def upload_room_details():
     print("--Upload Room Details--")
     questions = [inquirer.List("qna", message="Select a room type", choices=[
         "Single Bedroom", "Double Bedroom", "Family Bedroom"])]
     room_type = inquirer.prompt(questions)
     if room_type["qna"] == 'Single Bedroom':
         print("Price: RM 370 per night\nMaximum Guests: 1 pax")
+    elif room_type["qna"] == 'Double Bedroom':
+        print("Price: RM450 per night\nMaximum Guests: 2 pax")
+    elif room_type["qna"] == 'Family Bedroom':
+        print("Price: RM699 per night\nMaximum Guests: 4 pax")
 
 
 def menu(user_type, username):
