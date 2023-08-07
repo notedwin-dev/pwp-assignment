@@ -1,5 +1,6 @@
 import hashlib
 import inquirer
+import time
 # line 292 changed
 
 
@@ -377,7 +378,68 @@ def menu(user_type, username):
             menu(user_type, username)
 
         elif (user_choices == "Update Personal Details"):
-            print("Updating personal details...")
+
+            update_details = view_personal_details(username)
+
+            with open('database.txt', 'r') as read:
+                file_contents = read.read()
+
+                db = eval(file_contents)
+
+            questions = [inquirer.Checkbox("update_details", "Please check any personal details that you would like to update.", 
+            choices=[
+                "Date of birth",
+                "Gender",
+                "Address",
+                "Contact Number",
+                "Email"
+            ])]
+
+            answers = inquirer.prompt(questions)
+
+            
+
+            for x in answers["update_details"]:
+                if x == "Date of birth":
+                    new_dob = input("Update your Date of Birth: ")
+                    update_details.update({"date_of_birth": new_dob})
+                    
+
+                if x == "Gender":
+                    new_gender = input("Update your gender: ")
+                    update_details.update({"gender": new_gender})
+                    
+
+                if x == "Address":
+                    new_address = input("Enter your new Home Address: ")
+                    update_details.update({"address": new_address})
+                    
+                if x == "Contact Number":
+                    new_contact = input("Update your new Contact Number: ")
+                    update_details.update({"contact_number": new_contact})
+                    
+                if x == "Email":
+                    new_email = input("Update your new email: ")
+                    update_details.update({"email": new_email})
+
+            updated_db = [item if item.get("username") != username else update_details for item in db]
+
+            with open("database.txt", "w") as overwriteFile:
+                overwriteFile.write(str(updated_db))
+
+            print("Details updated successfully!")
+            print("Your new personal details are: ", update_details)
+
+            count = 5
+            while count != 0:
+                count -= 1
+                time.sleep(1)
+                print(f"Returning to user menu in... {count+1} seconds", end="\r")
+            
+
+            menu(user_type, username)
+
+
 
         elif (user_choices == "Delete Personal Details"):
             prompt = input(
@@ -463,3 +525,4 @@ def main():
 
 
 main()
+
