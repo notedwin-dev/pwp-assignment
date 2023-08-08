@@ -301,9 +301,27 @@ def book_room():
     answers = inquirer.prompt(questions)
 
     rdavailable = view_room_details()
-    print(rdavailable)
 
-    print("Your room number is: ", rdavailable[0]["Room Number"])
+    if rdavailable != None:
+        print("Your room number is: ", rdavailable[0]["Room Number"])
+
+
+        with open('roomdetails.txt', 'r') as read:
+                file_contents = read.read()
+
+                db = eval(file_contents)
+
+        rdavailable[0].update({"Availability": "Booked"})
+
+        updated_db = [item if item.get(
+                "Room Number") != rdavailable[0]["Room Number"] else rdavailable for item in db]
+
+        with open("roomdetails.txt", "w") as overwriteFile:
+                overwriteFile.write(str(updated_db))
+
+
+    else:
+        print("No room is available at this moment")
 
 
 def upload_room_details():
