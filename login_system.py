@@ -267,23 +267,26 @@ def admin_login():
     return {"user_type": "admin", "username": username}
 
 
-def view_room_details(room_number=None):
+def view_room_details(room_number=None, room_type=None):
     with open('roomdetails.txt', "r") as file:
         file_content = file.read()
 
         db = eval(file_content)
 
-        available = []
+        if room_number:
+            for item in db:
+                if item.get("Room Number") == room_number:
+                    return item
+            return None
 
-        if (type(room_number) == str):
-            for items in db:
-                if (items.get("Room Number") == room_number):
-                    return items
-        else:
-            for items in db:
-                if (items.get("Availability") == "Available"):
-                    available.append(items)
-        return available
+        if room_type:
+            available = []
+            for item in db:
+                if item.get("Availability") == "Available" and item.get("Room Type") == room_type:
+                    available.append(item)
+            return available
+
+    return None
 
 
 # Second Phase: User access
@@ -300,25 +303,27 @@ def book_room():
 
     answers = inquirer.prompt(questions)
 
-    rdavailable = view_room_details()
+    rdavailable = view_room_details(room_type=answers["room_type"])
 
     if rdavailable != None:
         print("Your room number is: ", rdavailable[0]["Room Number"])
 
-
         with open('roomdetails.txt', 'r') as read:
-                file_contents = read.read()
+            file_contents = read.read()
 
-                db = eval(file_contents)
+            db = eval(file_contents)
 
-        rdavailable[0].update({"Availability": "Booked"})
+        rdavailable[0]["Availability"] = "Booked"
 
-        updated_db = [item if item.get(
-                "Room Number") != rdavailable[0]["Room Number"] else rdavailable for item in db]
+        updated_db = [
+            rdavailable[0] if item.get("Room Number") == rdavailable[0]["Room Number"]
+            else item for item in db
+        ]
 
         with open("roomdetails.txt", "w") as overwriteFile:
-                overwriteFile.write(str(updated_db))
+            overwriteFile.write(str(updated_db))
 
+        print("Room booked successfully")
 
     else:
         print("No room is available at this moment")
