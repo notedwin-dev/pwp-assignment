@@ -347,7 +347,7 @@ def menu(user_type, username):
         admin_choices = choices["admin"]
 
         if (admin_choices == "View All Room Details"):
-            view_all_room_details()
+            print("view all room details")
         elif (admin_choices == "Upload Room Details"):
             upload_room_details()
             menu(user_type, username)
