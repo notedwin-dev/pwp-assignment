@@ -268,20 +268,44 @@ def admin_login():
     return {"user_type": "admin", "username": username}
 
 
-def view_room_details(room_number):
+def view_room_details(room_number = None):
      with open('roomdetails.txt', "r") as file:
         file_content = file.read()
 
         db = eval(file_content)
-
-        for items in db:
-            if (items.get("Room Number") == room_number):
-                return items
-                break
+        available = []
+        if room_number != None:
+            
+            for items in db:
+                if (items.get("Room Number") == room_number):
+                    return items
+        else :
+            for items in db:
+                if (items.get("Availability") == "Available"):
+                    available.append(items)
 
 # Second Phase: User access
 
 # Work in Progress upload room details
+
+def book_room():
+    print("--Book a room--")
+    questions = [
+        inquirer.List("room_type", message="Select a room type", choices=[
+        "Single Bedroom", "Double Bedroom", "Family Bedroom"]),
+        ]
+    
+    answers = inquirer.prompt(questions)
+
+    rdavailable = view_room_details()
+    print(rdavailable)
+
+    print("Your room number is: ", rdavailable[0]["Room Number"])
+
+
+
+
+
 
 
 def upload_room_details():
@@ -310,6 +334,7 @@ def upload_room_details():
         "Room Price": answers["room_price"],
         "Room Number": answers["room_number"],
         "Room Services": answers["room_service"],
+        "Availability" : "Available"
     }
 
     WriteIntoRoomDB(R_Details)
@@ -459,7 +484,7 @@ def menu(user_type, username):
         if (user_choices == "View Room Details"):
             view_room_details()
         elif (user_choices == "Book a Room"):
-            print("booking a room")
+            book_room()
         elif (user_choices == "View/Order from Room Service Menu"):
             print("-- Room Service Menu --")
             print("menu is under maintenance.")
