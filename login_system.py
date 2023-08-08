@@ -61,7 +61,6 @@ def WriteIntoRoomDB(dict):
         writeFile.write(str(db))
 
 
-
 def CompareCredentials(username, password):
     with open('database.txt', 'r') as read:
         # Read the contents of the file
@@ -269,7 +268,7 @@ def admin_login():
 
 
 def view_room_details(room_number):
-     with open('roomdetails.txt', "r") as file:
+    with open('roomdetails.txt', "r") as file:
         file_content = file.read()
 
         db = eval(file_content)
@@ -288,7 +287,7 @@ def upload_room_details():
     print("--Upload Room Details--")
     questions = [
         inquirer.List("room_type", message="Select a room type", choices=[
-        "Single Bedroom", "Double Bedroom", "Family Bedroom"]),
+            "Single Bedroom", "Double Bedroom", "Family Bedroom"]),
         inquirer.Text("room_price", message="Enter a room price"),
         inquirer.Text("room_number", message="Enter A room number"),
         inquirer.Checkbox("room_service", message="Select all applicable room services.", choices=[
@@ -296,15 +295,15 @@ def upload_room_details():
             "Karaoke Booking",
             "Food and Beverages"
         ])
-        ]
-    
+    ]
+
     answers = inquirer.prompt(questions)
 
     answers["room_type"]
     answers["room_price"]
     answers["room_number"]
     answers["room_service"]
-    
+
     R_Details = {
         "Room Type": answers["room_type"],
         "Room Price": answers["room_price"],
@@ -315,8 +314,6 @@ def upload_room_details():
     WriteIntoRoomDB(R_Details)
 
     print("Room Details uploaded Succesfully")
-    
-
 
 
 def menu(user_type, username):
@@ -353,7 +350,8 @@ def menu(user_type, username):
             menu(user_type, username)
 
         elif (admin_choices == "Update/Modify Room Details"):
-            room_number = input("Enter the room number to modify room details: ")
+            room_number = input(
+                "Enter the room number to modify room details: ")
 
             update_details = view_room_details(room_number)
 
@@ -362,51 +360,46 @@ def menu(user_type, username):
 
                 db = eval(file_contents)
 
-            questions = [inquirer.Checkbox("update_details", "Please check any room details that you would like to update.", 
-            choices=[
-                "Room Type",
-                "Room Number",
-                "Room Price",
-                "Room Services",
-            ])]
-
-            
+            questions = [inquirer.Checkbox("update_details", "Please check any room details that you would like to update.",
+                                           choices=[
+                                               "Room Type",
+                                               "Room Number",
+                                               "Room Price",
+                                               "Room Services",
+                                           ])]
 
             answers = inquirer.prompt(questions)
-
-            
 
             for x in answers["update_details"]:
                 if x == "Room Type":
                     new_rt = input("Update your Room Type: ")
                     update_details.update({"Room Type": new_rt})
-                    
 
                 if x == "Room Number":
                     new_rn = input("Update your Room Number: ")
                     update_details.update({"Room Number": new_rn})
-                    
 
                 if x == "Room Price":
                     new_rp = input("Enter your new Room Price: ")
                     update_details.update({"Room Price": new_rp})
-                    
+
                 if x == "Room Services":
-                    questions = [inquirer.Checkbox("room_service", "Please update with the applicable room services.", 
-                    choices=[
-                        "Room Cleaning",
-                        "Karaoke Booking",
-                        "Food and Beverages"
-                    ])]
+                    questions = [inquirer.Checkbox("room_service", "Please update with the applicable room services.",
+                                                   choices=[
+                                                       "Room Cleaning",
+                                                       "Karaoke Booking",
+                                                       "Food and Beverages"
+                                                   ])]
 
                     answers = inquirer.prompt(questions)
 
-                    update_details.update({"Room Services": answers["room_service"]})
-                    
+                    update_details.update(
+                        {"Room Services": answers["room_service"]})
 
-            updated_db = [item if item.get("username") != username else update_details for item in db]
+            updated_db = [item if item.get(
+                "username") != username else update_details for item in db]
 
-            with open("roomddetails.txt", "w") as overwriteFile:
+            with open("roomdetails.txt", "w") as overwriteFile:
                 overwriteFile.write(str(updated_db))
 
             print("Details updated successfully!")
@@ -416,8 +409,8 @@ def menu(user_type, username):
             while count != 0:
                 count -= 1
                 time.sleep(1)
-                print(f"Returning to admin menu in... {count+1} seconds", end="\r")
-            
+                print(
+                    f"Returning to admin menu in... {count+1} seconds", end="\r")
 
             menu(user_type, username)
         elif (admin_choices == "Search Specific Room Service Menu For Specific Restaurant"):
@@ -495,48 +488,45 @@ def menu(user_type, username):
 
                 db = eval(file_contents)
 
-            questions = [inquirer.Checkbox("update_details", "Please check any personal details that you would like to update.", 
-            choices=[
-                "Date of birth",
-                "Gender",
-                "Address",
-                "Contact Number",
-                "Email",
-                "Password",
-            ])]
+            questions = [inquirer.Checkbox("update_details", "Please check any personal details that you would like to update.",
+                                           choices=[
+                                               "Date of birth",
+                                               "Gender",
+                                               "Address",
+                                               "Contact Number",
+                                               "Email",
+                                               "Password",
+                                           ])]
 
             answers = inquirer.prompt(questions)
-
-            
 
             for x in answers["update_details"]:
                 if x == "Date of birth":
                     new_dob = input("Update your Date of Birth: ")
                     update_details.update({"date_of_birth": new_dob})
-                    
 
                 if x == "Gender":
                     new_gender = input("Update your gender: ")
                     update_details.update({"gender": new_gender})
-                    
 
                 if x == "Address":
                     new_address = input("Enter your new Home Address: ")
                     update_details.update({"address": new_address})
-                    
+
                 if x == "Contact Number":
                     new_contact = input("Update your new Contact Number: ")
                     update_details.update({"contact_number": new_contact})
-                    
+
                 if x == "Email":
                     new_email = input("Update your new email: ")
                     update_details.update({"email": new_email})
-                
+
                 if x == "Password":
                     new_password = input("Enter yout new password: ")
                     update_details.update({"password": new_password})
 
-            updated_db = [item if item.get("username") != username else update_details for item in db]
+            updated_db = [item if item.get(
+                "username") != username else update_details for item in db]
 
             with open("database.txt", "w") as overwriteFile:
                 overwriteFile.write(str(updated_db))
@@ -548,12 +538,10 @@ def menu(user_type, username):
             while count != 0:
                 count -= 1
                 time.sleep(1)
-                print(f"Returning to user menu in... {count+1} seconds", end="\r")
-            
+                print(
+                    f"Returning to user menu in... {count+1} seconds", end="\r")
 
             menu(user_type, username)
-
-
 
         elif (user_choices == "Delete Personal Details"):
             prompt = input(
@@ -639,4 +627,3 @@ def main():
 
 
 main()
-
