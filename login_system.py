@@ -267,7 +267,7 @@ def admin_login():
     return {"user_type": "admin", "username": username}
 
 
-def view_room_details(room_number=None, room_type=None):
+def view_room_details(room_number=None, room_type=None, availability = None):
     with open('roomdetails.txt', "r") as file:
         file_content = file.read()
 
@@ -279,10 +279,10 @@ def view_room_details(room_number=None, room_type=None):
                     return item
             return None
 
-        if room_type:
+        if availability and room_type:
             available = []
             for item in db:
-                if item.get("Availability") == "Available" and item.get("Room Type") == room_type:
+                if item.get("Availability") == availability and item.get("Room Type") == room_type:
                     available.append(item)
 
         return available
@@ -304,7 +304,7 @@ def book_room():
 
     answers = inquirer.prompt(questions)
 
-    rdavailable = view_room_details(room_type=answers["room_type"])
+    rdavailable = view_room_details(room_type=answers["room_type"], availability= "Available")
 
     if type(rdavailable) is list and len(rdavailable) > 0:
         print(rdavailable)
@@ -502,7 +502,13 @@ def menu(user_type, username):
         user_choices = choices["user"]
 
         if (user_choices == "View Room Details"):
-            details = view_room_details()
+            questions = [
+            inquirer.List("room_type", message="Select a room type", choices=[
+            "Single Bedroom", "Double Bedroom", "Family Bedroom"]),
+            ]
+
+            answers = inquirer.prompt(questions)
+            details = view_room_details(room_type = answers["room_type"])
             print(details)
         elif (user_choices == "Book a Room"):
             book_room()
