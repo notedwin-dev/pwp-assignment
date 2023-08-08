@@ -284,7 +284,8 @@ def view_room_details(room_number=None, room_type=None):
             for item in db:
                 if item.get("Availability") == "Available" and item.get("Room Type") == room_type:
                     available.append(item)
-            return available
+
+        return available
 
     return None
 
@@ -305,19 +306,21 @@ def book_room():
 
     rdavailable = view_room_details(room_type=answers["room_type"])
 
-    if rdavailable != None:
-        print("Your room number is: ", rdavailable[0]["Room Number"])
+    if type(rdavailable) is list and len(rdavailable) > 0:
+        print(rdavailable)
+        selected_room = rdavailable[0]
+        print("Your room number is: ", selected_room["Room Number"])
 
         with open('roomdetails.txt', 'r') as read:
             file_contents = read.read()
 
             db = eval(file_contents)
 
-        rdavailable[0]["Availability"] = "Booked"
+        selected_room["Availability"] = "Booked"
 
         updated_db = [
-            rdavailable[0] if item.get("Room Number") == rdavailable[0]["Room Number"]
-            else item for item in db
+            room if room.get("Room Number") != selected_room["Room Number"]
+            else selected_room for room in db
         ]
 
         with open("roomdetails.txt", "w") as overwriteFile:

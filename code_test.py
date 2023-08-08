@@ -303,6 +303,7 @@ def book_room():
     answers = inquirer.prompt(questions)
 
     rdavailable = view_room_details(room_type=answers["room_type"])
+    print(rdavailable)
 
     print("Your room number is: ", rdavailable[0]["Room Number"])
 
