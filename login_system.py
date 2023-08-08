@@ -267,44 +267,43 @@ def admin_login():
     return {"user_type": "admin", "username": username}
 
 
-def view_room_details(room_number):
-     with open('roomdetails.txt', "r") as file:
+def view_room_details(room_number=None):
+    with open('roomdetails.txt', "r") as file:
         file_content = file.read()
 
         db = eval(file_content)
+
         available = []
-        if room_number != None:
-            
+
+        if (type(room_number) == str):
             for items in db:
                 if (items.get("Room Number") == room_number):
                     return items
-        else :
+        else:
             for items in db:
                 if (items.get("Availability") == "Available"):
                     available.append(items)
+        return available
+
 
 # Second Phase: User access
 
 # Work in Progress upload room details
 
+
 def book_room():
     print("--Book a room--")
     questions = [
         inquirer.List("room_type", message="Select a room type", choices=[
-        "Single Bedroom", "Double Bedroom", "Family Bedroom"]),
-        ]
-    
+            "Single Bedroom", "Double Bedroom", "Family Bedroom"]),
+    ]
+
     answers = inquirer.prompt(questions)
 
     rdavailable = view_room_details()
     print(rdavailable)
 
     print("Your room number is: ", rdavailable[0]["Room Number"])
-
-
-
-
-
 
 
 def upload_room_details():
@@ -333,7 +332,7 @@ def upload_room_details():
         "Room Price": answers["room_price"],
         "Room Number": answers["room_number"],
         "Room Services": answers["room_service"],
-        "Availability" : "Available"
+        "Availability": "Available"
     }
 
     WriteIntoRoomDB(R_Details)
@@ -369,7 +368,9 @@ def menu(user_type, username):
         admin_choices = choices["admin"]
 
         if (admin_choices == "View All Room Details"):
-            print("view all room details")
+            details = view_room_details()
+
+            print(details)
         elif (admin_choices == "Upload Room Details"):
             upload_room_details()
             menu(user_type, username)
@@ -475,7 +476,8 @@ def menu(user_type, username):
         user_choices = choices["user"]
 
         if (user_choices == "View Room Details"):
-            view_room_details()
+            details = view_room_details()
+            print(details)
         elif (user_choices == "Book a Room"):
             book_room()
         elif (user_choices == "View/Order from Room Service Menu"):
