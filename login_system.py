@@ -406,7 +406,7 @@ def menu(user_type, username):
 
             updated_db = [item if item.get("username") != username else update_details for item in db]
 
-            with open("roomddetails.txt", "w") as overwriteFile:
+            with open("roomdetails.txt", "w") as overwriteFile:
                 overwriteFile.write(str(updated_db))
 
             print("Details updated successfully!")
