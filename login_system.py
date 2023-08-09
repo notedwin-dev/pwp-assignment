@@ -156,6 +156,7 @@ def signup():
         "gender": gender,
         "date_of_birth": dob,
         "role": "registered_user",
+        "booked_room": []
     }
 
     WriteIntoDB(credentials)
