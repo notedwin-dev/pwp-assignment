@@ -387,11 +387,11 @@ def upload_room_details():
     print("Room Details uploaded Succesfully")
 
 
-def res_menu():
+def res_menu(action="View"):
     questions = [inquirer.List("Restaurants", message="Please select the restaurant you wish to view", choices=[
         "Rordon Gamsey",
         "Mamakau Restaurant",
-        "Sushi Mentai"
+        "Sushi Hentai"
     ])]
 
     answers = inquirer.prompt(questions)
@@ -409,9 +409,12 @@ def res_menu():
 
         answers = inquirer.prompt(questions)
 
+        if action == "Order":
+            print("Successfully ordered", answers["rordon_gamsey_restaurant"])
+
     elif answers["Restaurants"] == "Mamakau Restaurant":
         questions = [
-            inquirer.List("mamakau_resaturant", "=====Mamakau Restaurant=====", choices=[
+            inquirer.List("mamakau_restaurant", "=====Mamakau Restaurant=====", choices=[
                 "Roti Canai: RM 6",
                 "Roti Bakar Mozzarella: RM 10",
                 "Roti telur: RM 7",
@@ -422,9 +425,12 @@ def res_menu():
 
         answers = inquirer.prompt(questions)
 
-    elif answers["Restaurants"] == "Sushi Mentai":
+        if action == "Order":
+            print("Successfully ordered", answers["mamakau_restaurant"])
+
+    elif answers["Restaurants"] == "Sushi Hentai":
         questions = [
-            inquirer.List("sushi_mentai", "======Sushi Mentai======", choices=[
+            inquirer.List("sushi_hentai", "======Sushi Hentai======", choices=[
                 "Salad Deluxe: RM 15",
                 "Tori Katsu Curry Rice: RM 18",
                 "Tori Katsu Don: RM 16",
@@ -434,6 +440,9 @@ def res_menu():
         ]
 
         answers = inquirer.prompt(questions)
+
+        if action == "Order":
+            print("Successfully ordered", answers["sushi_hentai"])
 
 
 def menu(user_type, username):
@@ -580,8 +589,15 @@ def menu(user_type, username):
         elif (user_choices == "Book a Room"):
             book_room(username)
         elif (user_choices == "View/Order from Room Service Menu"):
-            print("-- Room Service Menu --")
-            print("menu is under maintenance.")
+            question = [inquirer.List("qna", "===Room Service Menu===", choices=[
+                "View",
+                "Order"
+            ])]
+
+            answer = inquirer.prompt(question)
+
+            res_menu(action=answer["qna"])
+
         elif (user_choices == "View Booking"):
             print(view_booking(username))
         elif (user_choices == "Update Booking"):
