@@ -303,7 +303,7 @@ def view_room_details(room_number=None, room_type=None):
 # Work in Progress upload room details
 
 
-def book_room():
+def book_room(username):
     print("--Book a room--")
     questions = [
         inquirer.List("room_type", message="Select a room type", choices=[
@@ -315,7 +315,6 @@ def book_room():
     rdavailable = view_room_details(room_type=answers["room_type"])
 
     if type(rdavailable) is list and len(rdavailable) > 0:
-        print(rdavailable)
         selected_room = rdavailable[0]
         print("Your room number is: ", selected_room["Room Number"])
 
@@ -325,6 +324,7 @@ def book_room():
             db = eval(file_contents)
 
         selected_room["Availability"] = "Booked"
+        selected_room["Booked by"] = username
 
         updated_db = [
             room if room.get("Room Number") != selected_room["Room Number"]
@@ -339,6 +339,11 @@ def book_room():
     else:
         print("No room is available at this moment")
 
+def view_booking(username):
+    with open('roomdetails.txt', "r") as file:
+        file_content = file.read()
+
+        db = eval(file_content)
 
 def upload_room_details():
     print("--Upload Room Details--")
@@ -366,7 +371,8 @@ def upload_room_details():
         "Room Price": answers["room_price"],
         "Room Number": answers["room_number"],
         "Room Services": answers["room_service"],
-        "Availability": "Available"
+        "Availability": "Available",
+        "Booked by": "None"
     }
 
     WriteIntoRoomDB(R_Details)
@@ -513,10 +519,10 @@ def menu(user_type, username):
         user_choices = choices["user"]
 
         if (user_choices == "View Room Details"):
-            details = view_room_details()
+            details = view_room_details() 
             print(details)
         elif (user_choices == "Book a Room"):
-            book_room()
+            book_room(username)
         elif (user_choices == "View/Order from Room Service Menu"):
             print("-- Room Service Menu --")
             print("menu is under maintenance.")
