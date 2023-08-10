@@ -345,9 +345,12 @@ def view_booking(username):
 
         db = eval(file_content)
 
+        booked_rooms =[]
+
         for items in db:
             if items.get("Booked by") == username:
-                return items
+                booked_rooms.append(items)
+        return booked_rooms
 
 def upload_room_details():
     print("--Upload Room Details--")
