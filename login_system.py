@@ -386,6 +386,24 @@ def upload_room_details():
 
     print("Room Details uploaded Succesfully")
 
+def res_menu():
+    questions = [inquirer.List("Restaurants", message= "Please select the restaurant you wish to view", choices=[
+        "Rordon Gamsey",
+        "Mamakau Restaurant",
+        "Sushi Mentai"
+    ])]
+
+    answers = inquirer.prompt(questions)
+
+    if answers["Restaurants"] == "Rordon Gamsey":
+        print("=====Rordon Gamsey Menu=====")
+        print("Nasi Lemak = RM 20", "\nPan Mee = RM 11", "\nMee Goreng = RM 9", "\nYangzhou Fried Rice =  RM 13", "\nPopiah = RM 9")
+    elif answers["Restaurants"] == "Mamakau Restaurant":
+        print("=====Mamakau Restaurant=====")
+        print("Roti Canai = RM 6", "\nRoti Bakar Mozzarella = RM 10", "\nRoti telur = RM 7", "\nRoti Planta = RM 7", "\nNaan Biasa = RM 5")
+    elif answers["Restaurants"] == "Sushi Mentai":
+        print("=====Sushi Mentai=====")
+        print("Salad Deluxe = RM 15", "\nTori Katsu Curry Rice = RM 18", "\nTori Katsu Don = RM 16", "\nTempura Udon = RM 15", "\nTenzaru Soba = RM 14")
 
 def menu(user_type, username):
     if (user_type == "admin"):
@@ -488,7 +506,7 @@ def menu(user_type, username):
 
             menu(user_type, username)
         elif (admin_choices == "Search Specific Room Service Menu For Specific Restaurant"):
-            print("Searching specific room service menu for specific restaurant")
+            res_menu()
         elif (admin_choices == "View All Booking Of Customers"):
             print("viewing all bookings of customers")
         elif (admin_choices == "Generate Bills"):
