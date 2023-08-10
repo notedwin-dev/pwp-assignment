@@ -337,6 +337,18 @@ def book_room(username):
     else:
         print("No room is available at this moment")
 
+def view_all_bookings():
+     with open('roomdetails.txt', "r") as file:
+        file_content = file.read()
+
+        db = eval(file_content)
+
+        booked_rooms = []
+
+        for items in db:
+            if items.get("Availability") == "Booked":
+                booked_rooms.append(items)
+        return booked_rooms
 
 def view_booking(username):
     with open('roomdetails.txt', "r") as file:
@@ -548,7 +560,7 @@ def menu(user_type, username):
         elif (admin_choices == "Search Specific Room Service Menu For Specific Restaurant"):
             res_menu()
         elif (admin_choices == "View All Booking Of Customers"):
-            print("viewing all bookings of customers")
+            print(view_all_bookings())
         elif (admin_choices == "Generate Bills"):
             print("generating bill for each customers")
         elif (admin_choices == "Search Booking Of Specific Customer"):
