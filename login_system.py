@@ -288,12 +288,10 @@ def view_room_details(room_number=None, room_type=None):
             return available
 
         if room_number == None and room_type == None:
-            available=[]
+            available = []
             for items in db:
                 available.append(items)
             return available
-
-
 
     return None
 
@@ -339,18 +337,20 @@ def book_room(username):
     else:
         print("No room is available at this moment")
 
+
 def view_booking(username):
     with open('roomdetails.txt', "r") as file:
         file_content = file.read()
 
         db = eval(file_content)
 
-        booked_rooms =[]
+        booked_rooms = []
 
         for items in db:
             if items.get("Booked by") == username:
                 booked_rooms.append(items)
         return booked_rooms
+
 
 def upload_room_details():
     print("--Upload Room Details--")
@@ -386,8 +386,9 @@ def upload_room_details():
 
     print("Room Details uploaded Succesfully")
 
+
 def res_menu():
-    questions = [inquirer.List("Restaurants", message= "Please select the restaurant you wish to view", choices=[
+    questions = [inquirer.List("Restaurants", message="Please select the restaurant you wish to view", choices=[
         "Rordon Gamsey",
         "Mamakau Restaurant",
         "Sushi Mentai"
@@ -396,14 +397,44 @@ def res_menu():
     answers = inquirer.prompt(questions)
 
     if answers["Restaurants"] == "Rordon Gamsey":
-        print("=====Rordon Gamsey Menu=====")
-        print("Nasi Lemak = RM 20", "\nPan Mee = RM 11", "\nMee Goreng = RM 9", "\nYangzhou Fried Rice =  RM 13", "\nPopiah = RM 9")
+        questions = [
+            inquirer.List("rordon_gamsey_restaurant", "=====Rordon Gamsey Restaurant=====", choices=[
+                "Nasi Lemak: RM 20",
+                "Pan Mee: RM 11",
+                "Mee Goreng: RM 9",
+                "Yangzhou Fried Rice:  RM 13",
+                "Popiah: RM 9"
+            ])
+        ]
+
+        answers = inquirer.prompt(questions)
+
     elif answers["Restaurants"] == "Mamakau Restaurant":
-        print("=====Mamakau Restaurant=====")
-        print("Roti Canai = RM 6", "\nRoti Bakar Mozzarella = RM 10", "\nRoti telur = RM 7", "\nRoti Planta = RM 7", "\nNaan Biasa = RM 5")
+        questions = [
+            inquirer.List("mamakau_resaturant", "=====Mamakau Restaurant=====", choices=[
+                "Roti Canai: RM 6",
+                "Roti Bakar Mozzarella: RM 10",
+                "Roti telur: RM 7",
+                "Roti Planta: RM 7",
+                "Naan Biasa: RM 5"
+            ])
+        ]
+
+        answers = inquirer.prompt(questions)
+
     elif answers["Restaurants"] == "Sushi Mentai":
-        print("=====Sushi Mentai=====")
-        print("Salad Deluxe = RM 15", "\nTori Katsu Curry Rice = RM 18", "\nTori Katsu Don = RM 16", "\nTempura Udon = RM 15", "\nTenzaru Soba = RM 14")
+        questions = [
+            inquirer.List("sushi_mentai", "======Sushi Mentai======", choices=[
+                "Salad Deluxe: RM 15",
+                "Tori Katsu Curry Rice: RM 18",
+                "Tori Katsu Don: RM 16",
+                "Tempura Udon: RM 15",
+                "Tenzaru Soba: RM 14"
+            ])
+        ]
+
+        answers = inquirer.prompt(questions)
+
 
 def menu(user_type, username):
     if (user_type == "admin"):
@@ -544,7 +575,7 @@ def menu(user_type, username):
         user_choices = choices["user"]
 
         if (user_choices == "View Room Details"):
-            details = view_room_details() 
+            details = view_room_details()
             print(details)
         elif (user_choices == "Book a Room"):
             book_room(username)
