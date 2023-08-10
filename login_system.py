@@ -156,7 +156,6 @@ def signup():
         "gender": gender,
         "date_of_birth": dob,
         "role": "registered_user",
-        "booked_room": []
     }
 
     WriteIntoDB(credentials)
@@ -268,7 +267,7 @@ def admin_login():
     return {"user_type": "admin", "username": username}
 
 
-def view_room_details(room_number=None, room_type=None, availability = None):
+def view_room_details(room_number=None, room_type=None):
     with open('roomdetails.txt', "r") as file:
         file_content = file.read()
 
@@ -280,12 +279,21 @@ def view_room_details(room_number=None, room_type=None, availability = None):
                     return item
             return None
 
-        if availability and room_type:
+        if room_type:
             available = []
             for item in db:
-                if item.get("Availability") == availability and item.get("Room Type") == room_type:
+                if item.get("Availability") == "Available" and item.get("Room Type") == room_type:
                     available.append(item)
+
             return available
+
+        if room_number == None and room_type == None:
+            available=[]
+            for items in db:
+                available.append(items)
+            return available
+
+
 
     return None
 
@@ -304,21 +312,23 @@ def book_room():
 
     answers = inquirer.prompt(questions)
 
-    rdavailable = view_room_details(room_type=answers["room_type"], availability= "Available")
+    rdavailable = view_room_details(room_type=answers["room_type"])
 
-    if rdavailable != None:
-        print("Your room number is: ", rdavailable[0]["Room Number"])
+    if type(rdavailable) is list and len(rdavailable) > 0:
+        print(rdavailable)
+        selected_room = rdavailable[0]
+        print("Your room number is: ", selected_room["Room Number"])
 
         with open('roomdetails.txt', 'r') as read:
             file_contents = read.read()
 
             db = eval(file_contents)
 
-        rdavailable[0]["Availability"] = "Booked"
+        selected_room["Availability"] = "Booked"
 
         updated_db = [
-            rdavailable[0] if item.get("Room Number") == rdavailable[0]["Room Number"]
-            else item for item in db
+            room if room.get("Room Number") != selected_room["Room Number"]
+            else selected_room for room in db
         ]
 
         with open("roomdetails.txt", "w") as overwriteFile:
@@ -500,13 +510,7 @@ def menu(user_type, username):
         user_choices = choices["user"]
 
         if (user_choices == "View Room Details"):
-            questions = [
-            inquirer.List("room_type", message="Select a room type", choices=[
-            "Single Bedroom", "Double Bedroom", "Family Bedroom"]),
-            ]
-
-            answers = inquirer.prompt(questions)
-            details = view_room_details(room_type = answers["room_type"])
+            details = view_room_details()
             print(details)
         elif (user_choices == "Book a Room"):
             book_room()
