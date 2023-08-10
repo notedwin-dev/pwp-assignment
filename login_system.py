@@ -391,7 +391,8 @@ def menu(user_type, username):
                     "View All Booking Of Customers",
                     "Generate Bills",
                     "Search Booking Of Specific Customer",
-                    "Generate Customer Report"
+                    "Generate Customer Report",
+                    "Exit"
                 ]
             )
         ]
@@ -483,6 +484,8 @@ def menu(user_type, username):
             print("searching booking of specific customer")
         elif (admin_choices == "Generate Customer Report"):
             print("Generating customer report")
+        elif (admin_choices == "Exit"):
+            print("Admin Account logged out successfully.")
 
     elif (user_type == "user"):
         questions = [

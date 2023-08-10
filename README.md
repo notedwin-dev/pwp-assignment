@@ -13,29 +13,29 @@ The following characteristics are important to be included in your system:
 
 ### Admin
 - [x] Can login to access system.
-- [ ] Can upload room detail in system. (Available room, room type, room service, etc...)
-- [ ] Can view all room
-- [ ] Can update/modify room information if required.
+- [x] Can upload room detail in system. (Available room, room type, room service, etc...)
+- [x] Can view all room
+- [x] Can update/modify room information if required.
 - [ ] Can delete room service information.
 - [ ] Can search specific room service menu for specific restaurant.
 - [ ] Can view all booking of customers.
 - [ ] Can generate bills for each customer (room booking and restaurant bill).
 - [ ] Can search booking of specific customer.
 - [ ] Can generate a report. The record is to keep the customer details stayed in the hotel.
-- [ ] Exit
+- [x] Exit
 
 
 ### New Customer
 - [ ] Can view room detail.
 - [x] Can do registration by providing their detail like Name, Address, Email ID, Contact Number, Gender, Date_Of_Birth, User ID, Password, Rewrite Password, etc…
-- [ ] Exit
+- [x] Exit
 
 
 ## Registered Customer
 - [x] Can login to the system.
 - [ ] View all room detail.
-- [ ] Booking a room in a hotel by entering customer details.
+- [x] Booking a room in a hotel by entering customer details.
 - [ ]  Can view the room service menu and order the food. Room service menu will provide the customer with the restaurant’s menu card to order food at the room.
 - [ ] Can view, update, and cancel own booking.
-- [ ]  Can view, update, and delete personal information.
-- [ ]   Exit
+- [x]  Can view, update, and delete personal information.
+- [x]   Exit
