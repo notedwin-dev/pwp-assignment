@@ -345,6 +345,10 @@ def view_booking(username):
 
         db = eval(file_content)
 
+        for items in db:
+            if items.get("Booked by") == username:
+                return items
+
 def upload_room_details():
     print("--Upload Room Details--")
     questions = [
@@ -527,7 +531,7 @@ def menu(user_type, username):
             print("-- Room Service Menu --")
             print("menu is under maintenance.")
         elif (user_choices == "View Booking"):
-            print("Viewing Booking Details")
+            print(view_booking(username))
         elif (user_choices == "Update Booking"):
             print("Updating booking status and details")
         elif (user_choices == "Cancel Booking"):
