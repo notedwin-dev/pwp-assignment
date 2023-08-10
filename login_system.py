@@ -687,8 +687,8 @@ def welcome_screen(user_type=None, username=None):
                     login(username)
                     return {"user_type": "user", "username": username}
                 elif registered["qna"] == 'View Room Details':
-                    view_room_details()
-                    return {"user_type": "registered_user", "action": "View Room Details"}
+                    print(view_room_details())
+                    return {"user_type": "registered_user", "username": username}
 
 
 def main():
