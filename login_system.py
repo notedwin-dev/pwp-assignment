@@ -1031,11 +1031,43 @@ def menu(user_type, username):
             menu(user_type, username)
 
         elif (user_choices == "Update Booking"):
-            room_number = input("Enter your booked room number: ")
+                booked_rooms = view_booking(username)
 
-            countdown()
+                if len(booked_rooms) > 0:
+                    for room in booked_rooms:
+                     print("Room Number:", room["Room Number"])
+                
+                    room_number = input("Enter the room number: ")
 
-            menu(user_type, username)
+                with open('roomdetails.txt', 'r') as read:
+
+                    file_contents = read.read()
+
+                    db = eval(file_contents)
+
+                updated_db = []
+                for room in db:
+                    if room.get("Room Number") == str(room_number):
+                        questions = [inquirer.List("update_booking", "Please choose what room type you wish to have: ", choices=[
+                "Single Bedroom",
+                "Double Bedroom",
+                "Family Bedroom"
+            ])]
+                        answers = inquirer.prompt(questions)
+
+                        room["Room Type"] = answers["update_booking"]
+                        updated_db.append(room)
+                    else:
+                        updated_db.append(room)
+
+                with open("roomdetails.txt", "w") as overwriteFile:
+                    overwriteFile.write(str(updated_db))
+
+                print("Your Booked Room details have been successfully updated")
+
+                countdown()
+
+                menu(user_type, username)
 
         elif (user_choices == "Cancel Booking"):
             cancel_booking(username)
