@@ -401,7 +401,7 @@ def upload_room_details():
     print("Room Details uploaded Succesfully")
 
 
-def res_menu(action="View"):
+def res_menu():
     restaurants = [inquirer.List("Restaurants", message="Please select the restaurant you wish to view", choices=[
         "Rordon Gamsey",
         "Mamakau Restaurant",
