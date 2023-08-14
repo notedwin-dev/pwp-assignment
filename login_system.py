@@ -4,6 +4,14 @@ import time
 # line 292 changed
 
 
+def countdown():
+    count = 5
+    while count != 0:
+        count -= 1
+        time.sleep(1)
+        print(f"Returning to user menu in... {count+1} seconds", end="\r")
+
+
 def ReadDB(toRead, actual_value):
     # Opening the database TXT file
     with open("database.txt", "r") as openFile:
@@ -409,7 +417,7 @@ def res_menu():
         "Return to Main Menu"
     ])]
 
-    answers = inquirer.prompt(questions)
+    answers = inquirer.prompt(restaurants)
 
     if answers["Restaurants"] == "Rordon Gamsey":
         questions = [
@@ -440,7 +448,7 @@ def res_menu():
 
             nasi_lemak_choices = inquirer.prompt(questions)
 
-            if nasi_lemak_chocies == "Order":
+            if nasi_lemak_choices["nasi_lemak"] == "Order":
                 quantity = int(input("Quantity: "))
 
                 print(f"Sucessfully ordered x{quantity} {food_choice}(s).")
@@ -510,8 +518,16 @@ def menu(user_type, username):
             details = view_room_details()
 
             print(details)
+
+            countdown()
+
+            menu(user_type, username)
+
         elif (admin_choices == "Upload Room Details"):
             upload_room_details()
+
+            countdown()
+
             menu(user_type, username)
 
         elif (admin_choices == "Update/Modify Room Details"):
@@ -570,26 +586,50 @@ def menu(user_type, username):
             print("Details updated successfully!")
             print("Your new room details are: ", update_details)
 
-            count = 5
-            while count != 0:
-                count -= 1
-                time.sleep(1)
-                print(
-                    f"Returning to admin menu in... {count+1} seconds", end="\r")
+            countdown()
 
             menu(user_type, username)
+
         elif (admin_choices == "Search Specific Room Service Menu For Specific Restaurant"):
             res_menu()
+
+            countdown()
+
+            menu(user_type, username)
+
         elif (admin_choices == "View All Booking Of Customers"):
             print(view_all_bookings())
+
+            countdown()
+
+            menu(user_type, username)
+
         elif (admin_choices == "Generate Bills"):
             print("generating bill for each customers")
+
+            countdown()
+
+            menu(user_type, username)
+
         elif (admin_choices == "Search Booking Of Specific Customer"):
             print("searching booking of specific customer")
+
+            countdown()
+
+            menu(user_type, username)
+
         elif (admin_choices == "Generate Customer Report"):
             print("Generating customer report")
+            countdown()
+
+            menu(user_type, username)
+
         elif (admin_choices == "Exit"):
             print("Admin Account logged out successfully.")
+
+            countdown()
+
+            menu(user_type, username)
 
     elif (user_type == "user"):
         questions = [
@@ -619,18 +659,46 @@ def menu(user_type, username):
         if (user_choices == "View Room Details"):
             details = view_room_details()
             print(details)
+
+            countdown()
+
+            menu(user_type, username)
+
         elif (user_choices == "Book a Room"):
             book_room(username)
-        elif (user_choices == "View/Order from Room Service Menu"):
 
+            countdown()
+
+            menu(user_type, username)
+
+        elif (user_choices == "View/Order from Room Service Menu"):
             res_menu()
+
+            countdown()
+
+            menu(user_type, username)
 
         elif (user_choices == "View Booking"):
             print(view_booking(username))
+
+            countdown()
+
+            menu(user_type, username)
+
         elif (user_choices == "Update Booking"):
             print("Updating booking status and details")
+
+            countdown()
+
+            menu(user_type, username)
+
         elif (user_choices == "Cancel Booking"):
             print("cancelling booking...")
+
+            countdown()
+
+            menu(user_type, username)
+
         elif (user_choices == "View Personal Details"):
             print("-- Personal Details --")
 
@@ -644,7 +712,7 @@ def menu(user_type, username):
             print("Username:", username, "\nDate of birth:", dob, "\nGender:",
                   gender, "\nAddress:", address, "\nContact number:", contact_number)
 
-            print("Returning back to main menu...")
+            countdown()
 
             menu(user_type, username)
 
@@ -703,12 +771,7 @@ def menu(user_type, username):
             print("Details updated successfully!")
             print("Your new personal details are: ", update_details)
 
-            count = 5
-            while count != 0:
-                count -= 1
-                time.sleep(1)
-                print(
-                    f"Returning to user menu in... {count+1} seconds", end="\r")
+            countdown()
 
             menu(user_type, username)
 
@@ -725,11 +788,16 @@ def menu(user_type, username):
                 welcome_screen()
 
             elif (prompt.upper() == "N"):
-                print("Returning to main menu.")
+                countdown()
 
                 menu(user_type, username)
             else:
                 print("Invalid input. Please try again.")
+
+                countdown()
+
+                menu(user_type, username)
+
         elif (user_choices == "Exit"):
             print("Thank you for using APU Hotel Reservation System.")
             return
