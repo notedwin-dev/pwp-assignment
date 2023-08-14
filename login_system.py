@@ -709,9 +709,7 @@ def menu(user_type, username):
         elif (admin_choices == "Exit"):
             print("Admin Account logged out successfully.")
 
-            countdown()
-
-            menu(user_type, username)
+            return
 
     elif (user_type == "user"):
         questions = [
