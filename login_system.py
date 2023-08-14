@@ -453,6 +453,81 @@ def res_menu():
 
                 print(f"Sucessfully ordered x{quantity} {food_choice}(s).")
 
+        elif food_choice == "Pan Mee":
+            print(f"Successfully {food_choice} is RM11.")
+
+            questions = [
+                inquirer.List("pan_mee", "Select our action", choices=[
+                    "Order",
+                    "Back",
+                    "Return to Main Menu"
+                ])
+            ]
+
+            pan_mee_choices = inquirer.prompt(questions)
+
+            if pan_mee_choices["pan_mee"] == "Order":
+                quantity = int(input("Quantity: "))
+
+                print(f"Sucessfully ordered x{quantity} {food_choice}(s).")
+
+        elif food_choice == "Mee Goreng":
+            print(f"Successfully {food_choice} is RM11.")
+
+            questions = [
+                inquirer.List("mee_goreng", "Select our action", choices=[
+                    "Order",
+                    "Back",
+                    "Return to Main Menu"
+                ])
+            ]
+
+            mee_goreng_choices = inquirer.prompt(questions)
+
+            if mee_goreng_choices["mee_goreng"] == "Order":
+                quantity = int(input("Quantity: "))
+
+                print(f"Sucessfully ordered x{quantity} {food_choice}(s).")
+
+        elif food_choice == "Yangzhou Fried Rice":
+            print(f"Successfully {food_choice} is RM13.")
+
+            questions = [
+                inquirer.List("fried_rice", "Select our action", choices=[
+                    "Order",
+                    "Back",
+                    "Return to Main Menu"
+                ])
+            ]
+
+            fried_rice_choices = inquirer.prompt(questions)
+
+            if fried_rice_choices["fried_rice"] == "Order":
+                quantity = int(input("Quantity: "))
+
+                print(f"Sucessfully ordered x{quantity} {food_choice}(s).")
+
+        elif food_choice == "Popiah":
+            print(f"Successfully {food_choice} is RM9.")
+
+            questions = [
+                inquirer.List("popiah", "Select our action", choices=[
+                    "Order",
+                    "Back",
+                    "Return to Main Menu"
+                ])
+            ]
+
+            popiah_choices = inquirer.prompt(questions)
+
+            if popiah_choices["popiah"] == "Order":
+                quantity = int(input("Quantity: "))
+
+                print(f"Sucessfully ordered x{quantity} {food_choice}(s).")
+
+        elif food_choice == "Back":
+            return
+
     elif answers["Restaurants"] == "Mamakau Restaurant":
         questions = [
             inquirer.List("mamakau_restaurant", "=====Mamakau Restaurant=====", choices=[
