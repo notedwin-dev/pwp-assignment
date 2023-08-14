@@ -1,6 +1,7 @@
 import hashlib
 import inquirer
 import time
+from email_validator import validate_email, EmailNotValidError
 # line 292 changed
 
 
@@ -131,6 +132,12 @@ def signup():
 
     while True:
         email = input("Enter your email: ")
+        try:
+            validate_email(email)
+        except EmailNotValidError as errorMsg:
+            print(str(errorMsg))
+            continue
+
         proceed, choice = ReadDB("email", email)
         if proceed == False:
             continue
