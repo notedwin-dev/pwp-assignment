@@ -6,8 +6,8 @@ from email_validator import validate_email, EmailNotValidError
 
 
 def countdown():
-    count = 5
-    while count != 0:
+    count = 3
+    while count != -1:
         count -= 1
         time.sleep(1)
         print(f"Returning to user menu in... {count+1} seconds", end="\r")
@@ -116,6 +116,14 @@ def delete_personal_details(username):
         file.write(str(updated_db))
 
     return updated_db
+
+def search_specific_customer():
+        with open('database.txt', "r") as file:
+            file_content = file.read()
+
+        db = eval(file_content)
+
+
 
 
 def signup():
@@ -567,6 +575,26 @@ def res_menu():
         if action == "Order":
             print("Successfully ordered", answers["sushi_mentai"])
 
+def search_specific_booking(Cname=None):
+    if not Cname:
+        print("Type the name of the customer you wish to view.")
+        if True:
+            Cname = input("Username: ")
+
+            with open('roomdetails.txt', 'r') as read:
+                file_contents = read.read()
+
+            db = eval(file_contents)
+
+            # Check if the username exists in the database
+            username_exists = any(item.get("Booked by") ==
+                                  Cname for item in db)
+            for items in db:
+                if username_exists:
+                    print(items)
+                    break   
+
+
 
 def menu(user_type, username):
     if (user_type == "admin"):
@@ -694,11 +722,12 @@ def menu(user_type, username):
             menu(user_type, username)
 
         elif (admin_choices == "Search Booking Of Specific Customer"):
-            print("searching booking of specific customer")
+                search_specific_booking(Cname=None)
 
-            countdown()
 
-            menu(user_type, username)
+                countdown()
+
+                menu(user_type, username)
 
         elif (admin_choices == "Generate Customer Report"):
             print("Generating customer report")
@@ -708,10 +737,6 @@ def menu(user_type, username):
 
         elif (admin_choices == "Exit"):
             print("Admin Account logged out successfully.")
-
-            countdown()
-
-            menu(user_type, username)
 
     elif (user_type == "user"):
         questions = [
