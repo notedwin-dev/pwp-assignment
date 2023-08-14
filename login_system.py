@@ -401,6 +401,36 @@ def view_booking(username):
         return booked_rooms
 
 
+def cancel_booking(username):
+    print("--Cancel Booking--")
+    booked_rooms = view_booking(username)
+
+    if len(booked_rooms) > 0:
+        for room in booked_rooms:
+            print("Room Number:", room["Room Number"])
+        room_number_to_cancel = input(
+            "Enter the room number to cancel the booking: ")
+
+        with open("roomdetails.txt", "r") as read:
+            file_contents = read.read()
+
+        db = eval(file_contents)
+
+        updated_db = []
+        for room in db:
+            if room["Room Number"] == str(room_number_to_cancel):
+                room["Availability"] = "Available"
+                room["Booked by"] = "None"
+            updated_db.append(room)
+
+        with open("roomdetails.txt", "w") as overwriteFile:
+            overwriteFile.write(str(updated_db))
+
+        print("Booking canceled successfully!")
+    else:
+        print("You have no bookings to cancel.")
+
+
 def upload_room_details():
     print("--Upload Room Details--")
     questions = [
@@ -885,26 +915,14 @@ def menu(user_type, username):
             menu(user_type, username)
 
         elif (user_choices == "Update Booking"):
-            print("Updating booking status and details")
+            room_number = input("Enter your booked room number: ")
 
             countdown()
 
             menu(user_type, username)
 
         elif (user_choices == "Cancel Booking"):
-            book_room_list = view_booking(username)
-
-            room = [
-                inquirer.Checkbox(
-                    "cancel_booking", "Select the room you want to cancel", choices=book_room_list),
-            ]
-
-            cancelled = inquirer.prompt(room)
-
-            with open("roomdetails.txt", "r") as read:
-                file_content = read.read()
-
-                db = eval(file_content)
+            cancel_booking(username)
 
             countdown()
 
