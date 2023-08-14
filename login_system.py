@@ -117,12 +117,13 @@ def delete_personal_details(username):
 
     return updated_db
 
-
 def search_specific_customer():
-    with open('database.txt', "r") as file:
-        file_content = file.read()
+        with open('database.txt', "r") as file:
+            file_content = file.read()
 
-    db = eval(file_content)
+        db = eval(file_content)
+
+
 
 
 def signup():
@@ -299,7 +300,7 @@ def view_room_details(room_number=None, room_type=None):
             for item in db:
                 if item.get("Room Number") == room_number:
                     return item
-            return item
+            return None
 
         if room_type:
             available = []
@@ -334,6 +335,7 @@ def generate_report(Rname=None):
                 print(items)
 
     return None
+
 
 
 def book_room(username):
@@ -468,6 +470,7 @@ def res_menu():
             questions = [
                 inquirer.List("nasi_lemak", "Select our action", choices=[
                     "Order",
+                    "Back",
                     "Return to Main Menu"
                 ])
             ]
@@ -485,6 +488,7 @@ def res_menu():
             questions = [
                 inquirer.List("pan_mee", "Select our action", choices=[
                     "Order",
+                    "Back",
                     "Return to Main Menu"
                 ])
             ]
@@ -502,6 +506,7 @@ def res_menu():
             questions = [
                 inquirer.List("mee_goreng", "Select our action", choices=[
                     "Order",
+                    "Back",
                     "Return to Main Menu"
                 ])
             ]
@@ -519,6 +524,7 @@ def res_menu():
             questions = [
                 inquirer.List("fried_rice", "Select our action", choices=[
                     "Order",
+                    "Back",
                     "Return to Main Menu"
                 ])
             ]
@@ -536,6 +542,7 @@ def res_menu():
             questions = [
                 inquirer.List("popiah", "Select our action", choices=[
                     "Order",
+                    "Back",
                     "Return to Main Menu"
                 ])
             ]
@@ -569,6 +576,7 @@ def res_menu():
             questions = [
                 inquirer.List("roti_canai", "Select our action", choices=[
                     "Order",
+                    "Back",
                     "Return to Main Menu"
                 ])
             ]
@@ -586,6 +594,7 @@ def res_menu():
             questions = [
                 inquirer.List("roti_bakar", "Select our action", choices=[
                     "Order",
+                    "Back",
                     "Return to Main Menu"
                 ])
             ]
@@ -603,6 +612,7 @@ def res_menu():
             questions = [
                 inquirer.List("roti_telur", "Select our action", choices=[
                     "Order",
+                    "Back",
                     "Return to Main Menu"
                 ])
             ]
@@ -620,6 +630,7 @@ def res_menu():
             questions = [
                 inquirer.List("roti_planta", "Select our action", choices=[
                     "Order",
+                    "Back",
                     "Return to Main Menu"
                 ])
             ]
@@ -637,6 +648,7 @@ def res_menu():
             questions = [
                 inquirer.List("naan_biasa", "Select our action", choices=[
                     "Order",
+                    "Back",
                     "Return to Main Menu"
                 ])
             ]
@@ -651,18 +663,94 @@ def res_menu():
     elif answers["Restaurants"] == "Sushi Mentai":
         questions = [
             inquirer.List("sushi_mentai", "======Sushi Mentai======", choices=[
-                "Salad Deluxe: RM 15",
-                "Tori Katsu Curry Rice: RM 18",
-                "Tori Katsu Don: RM 16",
-                "Tempura Udon: RM 15",
-                "Tenzaru Soba: RM 14"
+                "Salad Deluxe", #RM15
+                "Tori Katsu Curry Rice", #RM18
+                "Tori Katsu Don", #RM16
+                "Tempura Udon", #RM15
+                "Tenzaru Soba" #RM14
             ])
         ]
 
-        answers = inquirer.prompt(questions)
+        food_choices = inquirer.prompt(questions)
 
-        if action == "Order":
-            print("Successfully ordered", answers["sushi_mentai"])
+        if food_choice == "Salad Deluxe":
+            print(f"Successfully {food_choice} is RM15.")
+
+            questions = [
+                inquirer.List("salad_deluxe", "Select our action", choices=[
+                    "Order",
+                    "Back",
+                    "Return to Main Menu"
+                ])
+            ]
+
+            salad_deluxe_choices = inquirer.prompt(questions)
+
+            if salad_deluxe_choices["salad_deluxe"] == "Order":
+                quantity = int(input("Quantity: "))
+
+                print(f"Sucessfully ordered x{quantity} {food_choice}(s).")
+            
+            elif food_choice == "Tori Katsu Curry Rice":
+                print(f"The price for {food_choice} is RM18.")
+
+                questions = [
+                inquirer.List("tori_katsu_curry_rice", "Select our action", choices=[
+                    "Order",
+                    "Back",
+                    "Return to Main Menu"])] 
+                    
+            tori_katsu_curry_rice_choices = inquirer.prompt(questions)
+
+            if tori_katsu_curry_rice_choices["tori_katsu_curry_rice"] == "Order":
+                quantity = int(input("Quantity: "))
+
+                print(f"Sucessfully ordered x{quantity} {food_choice}(s).")
+            
+            elif food_choice == "Tori Katsu Don":
+                print(f"The price for {food_choice} is RM16.")
+
+                questions = [
+                inquirer.List("tori_katsu_don", "Select our action", choices=[
+                    "Order",
+                    "Back",
+                    "Return to Main Menu"])]
+ 
+            tori_katsu_don_choices = inquirer.prompt(questions)
+
+            if tori_katsu_don_choices["tori_katsu_don"] == "Order":
+                quantity = int(input("Quantity: "))
+                print(f"Sucessfully ordered x{quantity} {food_choice}(s).")
+
+            elif food_choice == "Tempura Udon":
+                print(f"The price for {food_choice} is RM15.")
+
+                questions = [
+                inquirer.List("tempura_udon", "Select our action", choices=[
+                    "Order",
+                    "Back",
+                    "Return to Main Menu"])]
+ 
+            tempura_udon_choices = inquirer.prompt(questions)
+
+            if tempura_udon_choices["tempura_udon"] == "Order":
+                quantity = int(input("Quantity: "))
+                print(f"Sucessfully ordered x{quantity} {food_choice}(s).")
+
+            elif food_choice == "Tenzaru Soba":
+                print(f"The price for {food_choice} is RM14.")
+
+                questions = [
+                inquirer.List("tenzaru_soba", "Select our action", choices=[
+                    "Order",
+                    "Back",
+                    "Return to Main Menu"])]
+ 
+            tenzaru_soba_choices = inquirer.prompt(questions)
+
+            if tenzaru_soba_choices["tenzaru_soba"] == "Order":
+                quantity = int(input("Quantity: "))
+                print(f"Sucessfully ordered x{quantity} {food_choice}(s).")
 
 
 def search_specific_booking(Cname=None):
@@ -682,10 +770,8 @@ def search_specific_booking(Cname=None):
             for items in db:
                 if username_exists:
                     print(items)
-                    break
-                else:
-                    print("No booked rooms found under the username.")
-                    break
+                    break   
+
 
 
 def menu(user_type, username):
@@ -814,11 +900,12 @@ def menu(user_type, username):
             menu(user_type, username)
 
         elif (admin_choices == "Search Booking Of Specific Customer"):
-            search_specific_booking(Cname=None)
+                search_specific_booking(Cname=None)
 
-            countdown()
 
-            menu(user_type, username)
+                countdown()
+
+                menu(user_type, username)
 
         elif (admin_choices == "Generate Customer Report"):
             generate_report(Rname=None)
@@ -828,7 +915,6 @@ def menu(user_type, username):
 
         elif (admin_choices == "Exit"):
             print("Admin Account logged out successfully.")
-            return
 
     elif (user_type == "user"):
         questions = [
@@ -892,19 +978,7 @@ def menu(user_type, username):
             menu(user_type, username)
 
         elif (user_choices == "Cancel Booking"):
-            book_room_list = view_booking(username)
-
-            room = [
-                inquirer.Checkbox(
-                    "cancel_booking", "Select the room you want to cancel", choices=book_room_list),
-            ]
-
-            cancelled = inquirer.prompt(room)
-
-            with open("roomdetails.txt", "r") as read:
-                file_content = read.read()
-
-                db = eval(file_content)
+            print("cancelling booking...")
 
             countdown()
 
