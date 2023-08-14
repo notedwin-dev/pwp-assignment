@@ -808,6 +808,9 @@ def menu(user_type, username):
 
 def welcome_screen(user_type=None, username=None):
     print("Welcome to APU Hotel Reservation System (HRS).")
+    print("To navigate the menu, press the UP and DOWN arrow keys")
+    print("To select your choice, press the SPACEBAR button")
+    print("To confirm your choice, press the ENTER button")
     print("=================================================")
     questions = [
         inquirer.List("user_type", message="Select your User type",
