@@ -179,6 +179,7 @@ def signup():
         "gender": gender,
         "date_of_birth": dob,
         "role": "registered_user",
+        "bills": []
     }
 
     WriteIntoDB(credentials)
@@ -353,6 +354,11 @@ def book_room(username):
         selected_room = rdavailable[0]
         print("Your room number is: ", selected_room["Room Number"])
 
+        with open('database.txt', 'r') as read:
+            file_contents = read.read()
+
+            udb = eval(file_contents)
+
         with open('roomdetails.txt', 'r') as read:
             file_contents = read.read()
 
@@ -364,7 +370,16 @@ def book_room(username):
         updated_db = [
             room if room.get("Room Number") != selected_room["Room Number"]
             else selected_room for room in db
-        ]
+        ]     
+
+        for user in udb:
+            if user.get("username") == username:
+                user["bills"].append({selected_room["Room Type"]: selected_room["Room Price"]})
+            else:
+                continue
+
+        with open("database.txt", "w") as overwriteFile:
+            overwriteFile.write(str(udb))
 
         with open("roomdetails.txt", "w") as overwriteFile:
             overwriteFile.write(str(updated_db))
@@ -402,35 +417,6 @@ def view_booking(username):
                 booked_rooms.append(items)
         return booked_rooms
 
-
-def cancel_booking(username):
-    print("--Cancel Booking--")
-    booked_rooms = view_booking(username)
-
-    if len(booked_rooms) > 0:
-        for room in booked_rooms:
-            print("Room Number:", room["Room Number"])
-        room_number_to_cancel = input(
-            "Enter the room number to cancel the booking: ")
-
-        with open("roomdetails.txt", "r") as read:
-            file_contents = read.read()
-
-        db = eval(file_contents)
-
-        updated_db = []
-        for room in db:
-            if room["Room Number"] == str(room_number_to_cancel):
-                room["Availability"] = "Available"
-                room["Booked by"] = "None"
-            updated_db.append(room)
-
-        with open("roomdetails.txt", "w") as overwriteFile:
-            overwriteFile.write(str(updated_db))
-
-        print("Booking canceled successfully!")
-    else:
-        print("You have no bookings to cancel.")
 
 def cancel_booking(username):
     print("--Cancel Booking--")
