@@ -570,6 +570,8 @@ def res_menu():
 
         food_choices = inquirer.prompt(questions)
 
+        food_choice = food_choices["mamakau_restaurant"]
+
         if food_choice == "Roti Canai":
             print(f"Successfully {food_choice} is RM6.")
 
@@ -673,8 +675,10 @@ def res_menu():
 
         food_choices = inquirer.prompt(questions)
 
+        food_choice = food_choices["sushi_mentai"]
+
         if food_choice == "Salad Deluxe":
-            print(f"Successfully {food_choice} is RM15.")
+            print(f"Successfully {food_choice} is RM6.")
 
             questions = [
                 inquirer.List("salad_deluxe", "Select our action", choices=[
@@ -686,70 +690,81 @@ def res_menu():
 
             salad_deluxe_choices = inquirer.prompt(questions)
 
-            if salad_deluxe_choices["salad_deluxe"] == "Order":
+            if salad_deluxe_choices["roti_canai"] == "Order":
                 quantity = int(input("Quantity: "))
 
                 print(f"Sucessfully ordered x{quantity} {food_choice}(s).")
-            
-            elif food_choice == "Tori Katsu Curry Rice":
-                print(f"The price for {food_choice} is RM18.")
 
-                questions = [
-                inquirer.List("tori_katsu_curry_rice", "Select our action", choices=[
+        elif food_choice == "Tori Katsu Curry Rice":
+            print(f"The price for {food_choice} is RM10.")
+
+            questions = [
+                inquirer.List("tori_katsu_curry_don", "Select our action", choices=[
                     "Order",
                     "Back",
-                    "Return to Main Menu"])] 
-                    
-            tori_katsu_curry_rice_choices = inquirer.prompt(questions)
+                    "Return to Main Menu"
+                ])
+            ]
 
-            if tori_katsu_curry_rice_choices["tori_katsu_curry_rice"] == "Order":
+            tori_katsu_curry_don_choices = inquirer.prompt(questions)
+
+            if tori_katsu_curry_don_choices["tori_katsu_curry_don"] == "Order":
                 quantity = int(input("Quantity: "))
 
                 print(f"Sucessfully ordered x{quantity} {food_choice}(s).")
-            
-            elif food_choice == "Tori Katsu Don":
-                print(f"The price for {food_choice} is RM16.")
 
-                questions = [
+        elif food_choice == "Tori Katsu Don":
+            print(f"The price for {food_choice} is RM7.")
+
+            questions = [
                 inquirer.List("tori_katsu_don", "Select our action", choices=[
                     "Order",
                     "Back",
-                    "Return to Main Menu"])]
- 
+                    "Return to Main Menu"
+                ])
+            ]
+
             tori_katsu_don_choices = inquirer.prompt(questions)
 
             if tori_katsu_don_choices["tori_katsu_don"] == "Order":
                 quantity = int(input("Quantity: "))
+
                 print(f"Sucessfully ordered x{quantity} {food_choice}(s).")
 
-            elif food_choice == "Tempura Udon":
-                print(f"The price for {food_choice} is RM15.")
+        elif food_choice == "Tempura Udon":
+            print(f"The price for {food_choice} is RM7.")
 
-                questions = [
+            questions = [
                 inquirer.List("tempura_udon", "Select our action", choices=[
                     "Order",
                     "Back",
-                    "Return to Main Menu"])]
- 
+                    "Return to Main Menu"
+                ])
+            ]
+
             tempura_udon_choices = inquirer.prompt(questions)
 
             if tempura_udon_choices["tempura_udon"] == "Order":
                 quantity = int(input("Quantity: "))
+
                 print(f"Sucessfully ordered x{quantity} {food_choice}(s).")
 
-            elif food_choice == "Tenzaru Soba":
-                print(f"The price for {food_choice} is RM14.")
+        elif food_choice == "Tenzaru Soba":
+            print(f"The price for {food_choice} is RM5.")
 
-                questions = [
+            questions = [
                 inquirer.List("tenzaru_soba", "Select our action", choices=[
                     "Order",
                     "Back",
-                    "Return to Main Menu"])]
- 
+                    "Return to Main Menu"
+                ])
+            ]
+
             tenzaru_soba_choices = inquirer.prompt(questions)
 
             if tenzaru_soba_choices["tenzaru_soba"] == "Order":
                 quantity = int(input("Quantity: "))
+
                 print(f"Sucessfully ordered x{quantity} {food_choice}(s).")
 
 
