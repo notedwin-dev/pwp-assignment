@@ -337,8 +337,9 @@ def book_room(username):
     else:
         print("No room is available at this moment")
 
+
 def view_all_bookings():
-     with open('roomdetails.txt', "r") as file:
+    with open('roomdetails.txt', "r") as file:
         file_content = file.read()
 
         db = eval(file_content)
@@ -349,6 +350,7 @@ def view_all_bookings():
             if items.get("Availability") == "Booked":
                 booked_rooms.append(items)
         return booked_rooms
+
 
 def view_booking(username):
     with open('roomdetails.txt', "r") as file:
@@ -400,10 +402,11 @@ def upload_room_details():
 
 
 def res_menu(action="View"):
-    questions = [inquirer.List("Restaurants", message="Please select the restaurant you wish to view", choices=[
+    restaurants = [inquirer.List("Restaurants", message="Please select the restaurant you wish to view", choices=[
         "Rordon Gamsey",
         "Mamakau Restaurant",
-        "Sushi Hentai"
+        "Sushi Mentai",
+        "Return to Main Menu"
     ])]
 
     answers = inquirer.prompt(questions)
@@ -411,18 +414,36 @@ def res_menu(action="View"):
     if answers["Restaurants"] == "Rordon Gamsey":
         questions = [
             inquirer.List("rordon_gamsey_restaurant", "=====Rordon Gamsey Restaurant=====", choices=[
-                "Nasi Lemak: RM 20",
-                "Pan Mee: RM 11",
-                "Mee Goreng: RM 9",
-                "Yangzhou Fried Rice:  RM 13",
-                "Popiah: RM 9"
+                "Nasi Lemak",  # RM20
+                "Pan Mee",  # RM 11
+                "Mee Goreng",  # RM 9
+                "Yangzhou Fried Rice",  # RM13
+                "Popiah",  # RM 9
+                "Back"
             ])
         ]
 
-        answers = inquirer.prompt(questions)
+        food_choices = inquirer.prompt(questions)
 
-        if action == "Order":
-            print("Successfully ordered", answers["rordon_gamsey_restaurant"])
+        food_choice = food_choices["rordon_gamsey_restaurant"]
+
+        if food_choice == "Nasi Lemak":
+            print(f"Successfully {food_choice} is RM20.")
+
+            questions = [
+                inquirer.List("nasi_lemak", "Select our action", choices=[
+                    "Order",
+                    "Back",
+                    "Return to Main Menu"
+                ])
+            ]
+
+            nasi_lemak_choices = inquirer.prompt(questions)
+
+            if nasi_lemak_chocies == "Order":
+                quantity = int(input("Quantity: "))
+
+                print(f"Sucessfully ordered x{quantity} {food_choice}(s).")
 
     elif answers["Restaurants"] == "Mamakau Restaurant":
         questions = [
@@ -440,9 +461,9 @@ def res_menu(action="View"):
         if action == "Order":
             print("Successfully ordered", answers["mamakau_restaurant"])
 
-    elif answers["Restaurants"] == "Sushi Hentai":
+    elif answers["Restaurants"] == "Sushi Mentai":
         questions = [
-            inquirer.List("sushi_hentai", "======Sushi Hentai======", choices=[
+            inquirer.List("sushi_mentai", "======Sushi Mentai======", choices=[
                 "Salad Deluxe: RM 15",
                 "Tori Katsu Curry Rice: RM 18",
                 "Tori Katsu Don: RM 16",
@@ -454,7 +475,7 @@ def res_menu(action="View"):
         answers = inquirer.prompt(questions)
 
         if action == "Order":
-            print("Successfully ordered", answers["sushi_hentai"])
+            print("Successfully ordered", answers["sushi_mentai"])
 
 
 def menu(user_type, username):
@@ -601,14 +622,8 @@ def menu(user_type, username):
         elif (user_choices == "Book a Room"):
             book_room(username)
         elif (user_choices == "View/Order from Room Service Menu"):
-            question = [inquirer.List("qna", "===Room Service Menu===", choices=[
-                "View",
-                "Order"
-            ])]
 
-            answer = inquirer.prompt(question)
-
-            res_menu(action=answer["qna"])
+            res_menu()
 
         elif (user_choices == "View Booking"):
             print(view_booking(username))
@@ -676,7 +691,7 @@ def menu(user_type, username):
                     update_details.update({"email": new_email})
 
                 if x == "Password":
-                    new_password = input("Enter yout new password: ")
+                    new_password = input("Enter your new password: ")
                     update_details.update({"password": new_password})
 
             updated_db = [item if item.get(
