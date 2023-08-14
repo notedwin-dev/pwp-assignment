@@ -783,9 +783,10 @@ def menu(user_type, username):
             gender = personal_details["gender"]
             address = personal_details["address"]
             contact_number = personal_details["contact_number"]
+            email_a = personal_details["email"]
 
             print("Username:", username, "\nDate of birth:", dob, "\nGender:",
-                  gender, "\nAddress:", address, "\nContact number:", contact_number)
+                  gender, "\nAddress:", address, "\nContact number:", contact_number, "\nEmail:", email_a)
 
             countdown()
 
