@@ -324,6 +324,20 @@ def view_room_details(room_number=None, room_type=None):
 # Work in Progress upload room details
 
 
+def generate_report(Rname=None):
+    with open('database.txt', "r") as file:
+        file_content = file.read()
+
+        db = eval(file_content)
+
+        if Rname == None:
+            for items in db:
+                print(items)
+
+    return None
+
+
+
 def book_room(username):
     print("--Book a room--")
     questions = [
@@ -817,17 +831,13 @@ def menu(user_type, username):
                 menu(user_type, username)
 
         elif (admin_choices == "Generate Customer Report"):
-            print("Generating customer report")
+            generate_report(Rname=None)
             countdown()
 
             menu(user_type, username)
 
         elif (admin_choices == "Exit"):
             print("Admin Account logged out successfully.")
-
-            countdown()
-
-            menu(user_type, username)
 
     elif (user_type == "user"):
         questions = [
