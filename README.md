@@ -35,7 +35,7 @@ The following characteristics are important to be included in your system:
 - [x] Can login to the system.
 - [x] View all room detail.
 - [x] Booking a room in a hotel by entering customer details.
-- [ ]  Can view the room service menu and order the food. Room service menu will provide the customer with the restaurant’s menu card to order food at the room.
+- [x]  Can view the room service menu and order the food. Room service menu will provide the customer with the restaurant’s menu card to order food at the room.
 - [ ] Can view, update, and cancel own booking.
 - [x]  Can view, update, and delete personal information.
 - [x]   Exit

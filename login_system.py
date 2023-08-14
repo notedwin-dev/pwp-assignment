@@ -117,13 +117,12 @@ def delete_personal_details(username):
 
     return updated_db
 
+
 def search_specific_customer():
-        with open('database.txt', "r") as file:
-            file_content = file.read()
+    with open('database.txt', "r") as file:
+        file_content = file.read()
 
-        db = eval(file_content)
-
-
+    db = eval(file_content)
 
 
 def signup():
@@ -300,7 +299,7 @@ def view_room_details(room_number=None, room_type=None):
             for item in db:
                 if item.get("Room Number") == room_number:
                     return item
-            return None
+            return item
 
         if room_type:
             available = []
@@ -335,7 +334,6 @@ def generate_report(Rname=None):
                 print(items)
 
     return None
-
 
 
 def book_room(username):
@@ -470,7 +468,6 @@ def res_menu():
             questions = [
                 inquirer.List("nasi_lemak", "Select our action", choices=[
                     "Order",
-                    "Back",
                     "Return to Main Menu"
                 ])
             ]
@@ -488,7 +485,6 @@ def res_menu():
             questions = [
                 inquirer.List("pan_mee", "Select our action", choices=[
                     "Order",
-                    "Back",
                     "Return to Main Menu"
                 ])
             ]
@@ -506,7 +502,6 @@ def res_menu():
             questions = [
                 inquirer.List("mee_goreng", "Select our action", choices=[
                     "Order",
-                    "Back",
                     "Return to Main Menu"
                 ])
             ]
@@ -524,7 +519,6 @@ def res_menu():
             questions = [
                 inquirer.List("fried_rice", "Select our action", choices=[
                     "Order",
-                    "Back",
                     "Return to Main Menu"
                 ])
             ]
@@ -542,7 +536,6 @@ def res_menu():
             questions = [
                 inquirer.List("popiah", "Select our action", choices=[
                     "Order",
-                    "Back",
                     "Return to Main Menu"
                 ])
             ]
@@ -576,7 +569,6 @@ def res_menu():
             questions = [
                 inquirer.List("roti_canai", "Select our action", choices=[
                     "Order",
-                    "Back",
                     "Return to Main Menu"
                 ])
             ]
@@ -594,7 +586,6 @@ def res_menu():
             questions = [
                 inquirer.List("roti_bakar", "Select our action", choices=[
                     "Order",
-                    "Back",
                     "Return to Main Menu"
                 ])
             ]
@@ -612,7 +603,6 @@ def res_menu():
             questions = [
                 inquirer.List("roti_telur", "Select our action", choices=[
                     "Order",
-                    "Back",
                     "Return to Main Menu"
                 ])
             ]
@@ -630,7 +620,6 @@ def res_menu():
             questions = [
                 inquirer.List("roti_planta", "Select our action", choices=[
                     "Order",
-                    "Back",
                     "Return to Main Menu"
                 ])
             ]
@@ -648,7 +637,6 @@ def res_menu():
             questions = [
                 inquirer.List("naan_biasa", "Select our action", choices=[
                     "Order",
-                    "Back",
                     "Return to Main Menu"
                 ])
             ]
@@ -676,6 +664,7 @@ def res_menu():
         if action == "Order":
             print("Successfully ordered", answers["sushi_mentai"])
 
+
 def search_specific_booking(Cname=None):
     if not Cname:
         print("Type the name of the customer you wish to view.")
@@ -693,8 +682,10 @@ def search_specific_booking(Cname=None):
             for items in db:
                 if username_exists:
                     print(items)
-                    break   
-
+                    break
+                else:
+                    print("No booked rooms found under the username.")
+                    break
 
 
 def menu(user_type, username):
@@ -823,12 +814,11 @@ def menu(user_type, username):
             menu(user_type, username)
 
         elif (admin_choices == "Search Booking Of Specific Customer"):
-                search_specific_booking(Cname=None)
+            search_specific_booking(Cname=None)
 
+            countdown()
 
-                countdown()
-
-                menu(user_type, username)
+            menu(user_type, username)
 
         elif (admin_choices == "Generate Customer Report"):
             generate_report(Rname=None)
@@ -838,6 +828,7 @@ def menu(user_type, username):
 
         elif (admin_choices == "Exit"):
             print("Admin Account logged out successfully.")
+            return
 
     elif (user_type == "user"):
         questions = [
@@ -901,7 +892,19 @@ def menu(user_type, username):
             menu(user_type, username)
 
         elif (user_choices == "Cancel Booking"):
-            print("cancelling booking...")
+            book_room_list = view_booking(username)
+
+            room = [
+                inquirer.Checkbox(
+                    "cancel_booking", "Select the room you want to cancel", choices=book_room_list),
+            ]
+
+            cancelled = inquirer.prompt(room)
+
+            with open("roomdetails.txt", "r") as read:
+                file_content = read.read()
+
+                db = eval(file_content)
 
             countdown()
 
