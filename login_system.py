@@ -749,7 +749,7 @@ def res_menu():
 
             salad_deluxe_choices = inquirer.prompt(questions)
 
-            if salad_deluxe_choices["roti_canai"] == "Order":
+            if salad_deluxe_choices["salad_deluxe"] == "Order":
                 quantity = int(input("Quantity: "))
 
                 print(f"Sucessfully ordered x{quantity} {food_choice}(s).")
