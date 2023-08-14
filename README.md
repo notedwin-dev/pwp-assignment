@@ -18,10 +18,10 @@ The following characteristics are important to be included in your system:
 - [x] Can update/modify room information if required.
 - [ ] Can delete room service information.
 - [x] Can search specific room service menu for specific restaurant.
-- [ ] Can view all booking of customers.
+- [x] Can view all booking of customers.
 - [ ] Can generate bills for each customer (room booking and restaurant bill).
-- [ ] Can search booking of specific customer.
-- [ ] Can generate a report. The record is to keep the customer details stayed in the hotel.
+- [x] Can search booking of specific customer.
+- [x] Can generate a report. The record is to keep the customer details stayed in the hotel.
 - [x] Exit
 
 
