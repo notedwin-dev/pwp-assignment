@@ -443,7 +443,7 @@ def res_menu():
         food_choice = food_choices["rordon_gamsey_restaurant"]
 
         if food_choice == "Nasi Lemak":
-            print(f"Successfully {food_choice} is RM20.")
+            print(f"The price for {food_choice} is RM20.")
 
             questions = [
                 inquirer.List("nasi_lemak", "Select our action", choices=[
@@ -461,7 +461,7 @@ def res_menu():
                 print(f"Sucessfully ordered x{quantity} {food_choice}(s).")
 
         elif food_choice == "Pan Mee":
-            print(f"Successfully {food_choice} is RM11.")
+            print(f"The price for {food_choice} is RM11.")
 
             questions = [
                 inquirer.List("pan_mee", "Select our action", choices=[
@@ -479,7 +479,7 @@ def res_menu():
                 print(f"Sucessfully ordered x{quantity} {food_choice}(s).")
 
         elif food_choice == "Mee Goreng":
-            print(f"Successfully {food_choice} is RM11.")
+            print(f"The price for {food_choice} is RM11.")
 
             questions = [
                 inquirer.List("mee_goreng", "Select our action", choices=[
@@ -497,7 +497,7 @@ def res_menu():
                 print(f"Sucessfully ordered x{quantity} {food_choice}(s).")
 
         elif food_choice == "Yangzhou Fried Rice":
-            print(f"Successfully {food_choice} is RM13.")
+            print(f"The price for {food_choice} is RM13.")
 
             questions = [
                 inquirer.List("fried_rice", "Select our action", choices=[
@@ -515,7 +515,7 @@ def res_menu():
                 print(f"Sucessfully ordered x{quantity} {food_choice}(s).")
 
         elif food_choice == "Popiah":
-            print(f"Successfully {food_choice} is RM9.")
+            print(f"The price for {food_choice} is RM9.")
 
             questions = [
                 inquirer.List("popiah", "Select our action", choices=[
@@ -538,18 +538,105 @@ def res_menu():
     elif answers["Restaurants"] == "Mamakau Restaurant":
         questions = [
             inquirer.List("mamakau_restaurant", "=====Mamakau Restaurant=====", choices=[
-                "Roti Canai: RM 6",
-                "Roti Bakar Mozzarella: RM 10",
-                "Roti telur: RM 7",
-                "Roti Planta: RM 7",
-                "Naan Biasa: RM 5"
+                "Roti Canai",  # RM6
+                "Roti Bakar Mozzarella",  # RM10
+                "Roti Telur",  # RM7
+                "Roti Planta",  # RM7
+                "Naan Biasa"  # RM5
             ])
         ]
 
-        answers = inquirer.prompt(questions)
+        food_choices = inquirer.prompt(questions)
 
-        if action == "Order":
-            print("Successfully ordered", answers["mamakau_restaurant"])
+        if food_choice == "Roti Canai":
+            print(f"Successfully {food_choice} is RM6.")
+
+            questions = [
+                inquirer.List("roti_canai", "Select our action", choices=[
+                    "Order",
+                    "Back",
+                    "Return to Main Menu"
+                ])
+            ]
+
+            nasi_lemak_choices = inquirer.prompt(questions)
+
+            if nasi_lemak_choices["roti_canai"] == "Order":
+                quantity = int(input("Quantity: "))
+
+                print(f"Sucessfully ordered x{quantity} {food_choice}(s).")
+
+        elif food_choice == "Roti Bakar Mozzarella":
+            print(f"The price for {food_choice} is RM10.")
+
+            questions = [
+                inquirer.List("roti_bakar", "Select our action", choices=[
+                    "Order",
+                    "Back",
+                    "Return to Main Menu"
+                ])
+            ]
+
+            roti_bakar_choices = inquirer.prompt(questions)
+
+            if roti_bakar_choices["roti_bakar"] == "Order":
+                quantity = int(input("Quantity: "))
+
+                print(f"Sucessfully ordered x{quantity} {food_choice}(s).")
+
+        elif food_choice == "Roti Telur":
+            print(f"The price for {food_choice} is RM7.")
+
+            questions = [
+                inquirer.List("roti_telur", "Select our action", choices=[
+                    "Order",
+                    "Back",
+                    "Return to Main Menu"
+                ])
+            ]
+
+            roti_telur_choices = inquirer.prompt(questions)
+
+            if roti_telur_choices["roti_telur"] == "Order":
+                quantity = int(input("Quantity: "))
+
+                print(f"Sucessfully ordered x{quantity} {food_choice}(s).")
+
+        elif food_choice == "Roti Planta":
+            print(f"The price for {food_choice} is RM7.")
+
+            questions = [
+                inquirer.List("roti_planta", "Select our action", choices=[
+                    "Order",
+                    "Back",
+                    "Return to Main Menu"
+                ])
+            ]
+
+            roti_planta_choices = inquirer.prompt(questions)
+
+            if roti_planta_choices["roti_planta"] == "Order":
+                quantity = int(input("Quantity: "))
+
+                print(f"Sucessfully ordered x{quantity} {food_choice}(s).")
+
+        elif food_choice == "Naan Biasa":
+            print(f"The price for {food_choice} is RM5.")
+
+            questions = [
+                inquirer.List("naan_biasa", "Select our action", choices=[
+                    "Order",
+                    "Back",
+                    "Return to Main Menu"
+                ])
+            ]
+
+            naan_choices = inquirer.prompt(questions)
+
+            if naan_choices["naan_biasa"] == "Order":
+                quantity = int(input("Quantity: "))
+
+                print(f"Sucessfully ordered x{quantity} {food_choice}(s).")
 
     elif answers["Restaurants"] == "Sushi Mentai":
         questions = [
